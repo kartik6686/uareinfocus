@@ -91,5 +91,28 @@ add_action(
 				wp_enqueue_style( 'infocus-erp-entity-app', INFOCUS_ERP_URL . 'build/entity-app.css', array(), $asset['version'] );
 			}
 		}
+
+		// The React-rendered client-workflow screens (Phase 3): Inquiries,
+		// Shoot Requirements, Image Selections, Invoices. Bespoke screens, not
+		// part of the generic entities() config, so they share one bundle
+		// keyed by the page slug instead of the entity-app bundle above.
+		$workflow_screens = array(
+			'infocus-erp-inquiries'        => 'inquiries',
+			'infocus-erp-requirements'     => 'requirements',
+			'infocus-erp-image-selections' => 'image-selections',
+			'infocus-erp-invoices'         => 'invoices',
+		);
+		if ( isset( $workflow_screens[ $page ] ) ) {
+			$asset_file = INFOCUS_ERP_PATH . 'build/workflow.asset.php';
+			if ( file_exists( $asset_file ) ) {
+				$asset = require $asset_file;
+				wp_enqueue_script( 'infocus-erp-workflow', INFOCUS_ERP_URL . 'build/workflow.js', $asset['dependencies'], $asset['version'], true );
+				wp_enqueue_style( 'infocus-erp-workflow', INFOCUS_ERP_URL . 'build/workflow.css', array(), $asset['version'] );
+				wp_localize_script( 'infocus-erp-workflow', 'infocusErpWorkflow', array(
+					'adminUrl' => admin_url( '/' ),
+					'userName' => wp_get_current_user()->display_name,
+				) );
+			}
+		}
 	}
 );

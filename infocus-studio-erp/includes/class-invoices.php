@@ -25,7 +25,6 @@ class Infocus_ERP_Invoices {
 
 	public static function init() {
 		add_shortcode( 'infocus_invoice', array( __CLASS__, 'render_invoice_page' ) );
-		add_action( 'admin_post_infocus_erp_create_custom_invoice', array( __CLASS__, 'handle_create_custom' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -85,32 +84,30 @@ class Infocus_ERP_Invoices {
 		return array( 'invoice_id' => $invoice_id, 'invoice_number' => $invoice['invoice_number'], 'link' => self::build_link( $token ) );
 	}
 
-	private static function build_link( $token ) {
+	public static function build_link( $token ) {
 		$page_url = get_option( 'infocus_erp_invoice_page_url', home_url( '/invoice/' ) );
 		return add_query_arg( 'rid', $token, $page_url );
 	}
 
-	public static function handle_create_custom() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_custom_invoice' );
-
-		$customer_id = (int) ( $_POST['customer_id'] ?? 0 );
+	/**
+	 * Creates a one-off custom invoice (not tied to a booking) — a customer,
+	 * free-form line items, and any advance already paid. Used by the
+	 * Invoices screen's "New custom invoice" form via REST.
+	 */
+	public static function create_custom_invoice( $customer_id, $raw_line_items, $advance_paid, $notes ) {
 		if ( ! $customer_id || ! Infocus_ERP_CRUD::get( 'customers', $customer_id ) ) {
-			wp_die( 'Please choose a customer.' );
+			return new WP_Error( 'bad_request', 'Please choose a customer.', array( 'status' => 400 ) );
 		}
 
 		$line_items = array();
-		$descs      = $_POST['item_description'] ?? array();
-		$amounts    = $_POST['item_amount'] ?? array();
-		foreach ( $descs as $i => $desc ) {
-			$desc   = sanitize_text_field( $desc );
-			$amount = isset( $amounts[ $i ] ) ? floatval( $amounts[ $i ] ) : 0;
+		foreach ( $raw_line_items as $item ) {
+			$desc   = sanitize_text_field( $item['description'] ?? '' );
+			$amount = isset( $item['amount'] ) ? floatval( $item['amount'] ) : 0;
 			if ( $desc === '' && $amount == 0 ) continue;
 			$line_items[] = array( 'description' => $desc, 'amount' => $amount );
 		}
 
-		$subtotal     = array_sum( array_column( $line_items, 'amount' ) );
-		$advance_paid = isset( $_POST['advance_paid'] ) ? floatval( $_POST['advance_paid'] ) : 0;
+		$subtotal = array_sum( array_column( $line_items, 'amount' ) );
 
 		$invoice_id = Infocus_ERP_CRUD::insert( 'invoices', array(
 			'invoice_number' => self::next_invoice_number(),
@@ -122,11 +119,11 @@ class Infocus_ERP_Invoices {
 			'subtotal'       => $subtotal,
 			'advance_paid'   => $advance_paid,
 			'balance_due'    => $subtotal - $advance_paid,
-			'notes'          => sanitize_textarea_field( $_POST['notes'] ?? '' ),
+			'notes'          => sanitize_textarea_field( $notes ),
 		) );
 
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-invoices&invoice_generated=' . $invoice_id ) );
-		exit;
+		$invoice = Infocus_ERP_CRUD::get( 'invoices', $invoice_id );
+		return array( 'invoice_id' => $invoice_id, 'invoice_number' => $invoice['invoice_number'], 'link' => self::build_link( $invoice['token'] ) );
 	}
 
 	private static function next_invoice_number() {

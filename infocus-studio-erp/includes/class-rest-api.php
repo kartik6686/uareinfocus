@@ -18,11 +18,12 @@ class Infocus_ERP_REST_API {
 	}
 
 	public static function register_routes() {
-		$perm = array( 'Infocus_ERP_Security', 'check_api_key' );
+		$perm       = array( 'Infocus_ERP_Security', 'check_api_key' );
+		$admin_perm = array( 'Infocus_ERP_Security', 'check_admin_or_api_key' );
 
 		register_rest_route( self::NS, '/summary', array(
 			'methods'             => 'GET',
-			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
+			'permission_callback' => $admin_perm,
 			'callback'            => function ( $request ) {
 				return self::wrap( self::do_summary( array( 'from' => $request->get_param( 'from' ), 'to' => $request->get_param( 'to' ) ) ) );
 			},
@@ -78,7 +79,7 @@ class Infocus_ERP_REST_API {
 
 		register_rest_route( self::NS, '/inquiries', array(
 			'methods'             => 'GET',
-			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
+			'permission_callback' => $admin_perm,
 			'callback'            => function ( $request ) {
 				$where = array();
 				if ( $request->get_param( 'status' ) ) {
@@ -88,9 +89,46 @@ class Infocus_ERP_REST_API {
 			},
 		) );
 
+		register_rest_route( self::NS, '/inquiries/(?P<id>\d+)', array(
+			'methods'             => 'PUT',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( self::do_update( 'inquiries', (int) $request['id'], (array) $request->get_json_params() ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/inquiries/(?P<id>\d+)/approve', array(
+			'methods'             => 'POST',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( Infocus_ERP_Public_Forms::approve_inquiry( (int) $request['id'] ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/inquiries/(?P<id>\d+)/reject', array(
+			'methods'             => 'POST',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( Infocus_ERP_Public_Forms::reject_inquiry( (int) $request['id'] ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/inquiries/(?P<id>\d+)/whatsapp-link', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				$inquiry = Infocus_ERP_CRUD::get( 'inquiries', (int) $request['id'] );
+				if ( ! $inquiry ) return new WP_Error( 'not_found', 'Inquiry not found.', array( 'status' => 404 ) );
+				$package = Infocus_ERP_Public_Forms::find_matching_package( $inquiry['service_type'] );
+				$message = 'Hi ' . $inquiry['name'] . '! Thanks for your interest in our ' . $inquiry['service_type'] . ' package.'
+					. ( $package && ! empty( $package['brochure_url'] ) ? " Here's our full package guide: " . $package['brochure_url'] : '' );
+				return self::wrap( array( 'link' => Infocus_ERP_Public_Forms::build_whatsapp_link( $inquiry['phone'], $message ) ) );
+			},
+		) );
+
 		register_rest_route( self::NS, '/calendar-month', array(
 			'methods'             => 'GET',
-			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
+			'permission_callback' => $admin_perm,
 			'callback'            => function ( $request ) {
 				$year  = (int) ( $request->get_param( 'year' ) ?: gmdate( 'Y' ) );
 				$month = (int) ( $request->get_param( 'month' ) ?: gmdate( 'n' ) );
@@ -98,15 +136,68 @@ class Infocus_ERP_REST_API {
 			},
 		) );
 
-		register_rest_route( self::NS, '/invoices', array(
+		register_rest_route( self::NS, '/shoot-requirements', array(
 			'methods'             => 'GET',
-			'permission_callback' => $perm,
-			'callback'            => function ( $request ) {
-				return self::wrap( self::do_list( 'invoices', array() ) );
+			'permission_callback' => $admin_perm,
+			'callback'            => function () {
+				$page_url = get_option( 'infocus_erp_requirements_page_url', home_url( '/shoot-consultation/' ) );
+				$rows     = self::do_list( 'shoot_requirements' );
+				foreach ( $rows as &$row ) {
+					$row['reference_links'] = ! empty( $row['reference_links'] ) ? json_decode( $row['reference_links'], true ) : array();
+					$row['link']            = add_query_arg( 'rid', $row['token'], $page_url );
+				}
+				return self::wrap( $rows );
 			},
 		) );
 
-		$admin_perm = array( 'Infocus_ERP_Security', 'check_admin_or_api_key' );
+		register_rest_route( self::NS, '/image-selections', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function () {
+				$page_url = get_option( 'infocus_erp_image_selection_page_url', home_url( '/select-images/' ) );
+				$rows     = self::do_list( 'image_selections' );
+				foreach ( $rows as &$row ) {
+					$row['selected_images'] = ! empty( $row['selected_images'] ) ? json_decode( $row['selected_images'], true ) : array();
+					$row['link']            = add_query_arg( 'rid', $row['token'], $page_url );
+					$row['locked']          = Infocus_ERP_Image_Selection_Form::is_locked( $row );
+				}
+				return self::wrap( $rows );
+			},
+		) );
+
+		register_rest_route( self::NS, '/image-selections/(?P<id>\d+)', array(
+			'methods'             => 'PUT',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( self::do_update( 'image_selections', (int) $request['id'], (array) $request->get_json_params() ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/invoices', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function () {
+				$rows = self::do_list( 'invoices' );
+				foreach ( $rows as &$row ) {
+					$row['link'] = Infocus_ERP_Invoices::build_link( $row['token'] );
+				}
+				return self::wrap( $rows );
+			},
+		) );
+
+		register_rest_route( self::NS, '/invoices/custom', array(
+			'methods'             => 'POST',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				$body = (array) $request->get_json_params();
+				return self::wrap( Infocus_ERP_Invoices::create_custom_invoice(
+					(int) ( $body['customer_id'] ?? 0 ),
+					(array) ( $body['line_items'] ?? array() ),
+					(float) ( $body['advance_paid'] ?? 0 ),
+					(string) ( $body['notes'] ?? '' )
+				) );
+			},
+		) );
 
 		foreach ( array( 'customers', 'bookings', 'payments', 'employees', 'pipeline', 'expenses', 'packages' ) as $entity ) {
 			register_rest_route( self::NS, "/$entity", array(

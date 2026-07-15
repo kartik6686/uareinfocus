@@ -112,9 +112,6 @@ class Infocus_ERP_Admin_Pages {
 
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
-		add_action( 'admin_post_infocus_erp_update_inquiry_status', array( __CLASS__, 'handle_inquiry_status_update' ) );
-		add_action( 'admin_post_infocus_erp_approve_inquiry', array( __CLASS__, 'handle_approve_inquiry' ) );
-		add_action( 'admin_post_infocus_erp_reject_inquiry', array( __CLASS__, 'handle_reject_inquiry' ) );
 	}
 
 	public static function register_menu() {
@@ -138,24 +135,6 @@ class Infocus_ERP_Admin_Pages {
 	}
 
 	/* ---------------------------------------------------------------- */
-
-	/** Human-readable label for a referenced row. Still used by the Shoot Requirements, Image Selections, and Invoices screens (not yet rebuilt). */
-	private static function ref_label( $ref_entity, $id ) {
-		if ( ! $id ) return '—';
-		$row = Infocus_ERP_CRUD::get( $ref_entity, $id );
-		if ( ! $row ) return '#' . $id;
-		if ( $ref_entity === 'bookings' ) {
-			$c = Infocus_ERP_CRUD::get( 'customers', $row['customer_id'] );
-			$parts = array();
-			$parts[] = $c['name'] ?? 'Unknown client';
-			if ( ! empty( $c['phone'] ) ) $parts[] = $c['phone'];
-			$parts[] = $row['service_type'];
-			if ( ! empty( $row['session_date'] ) ) $parts[] = $row['session_date'];
-			return esc_html( implode( ' — ', array_filter( $parts ) ) );
-		}
-		if ( isset( $row['name'] ) ) return esc_html( $row['name'] );
-		return '#' . $id;
-	}
 
 	public static function render_entity_screen( $entity ) {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
@@ -390,272 +369,30 @@ class Infocus_ERP_Admin_Pages {
 
 	public static function render_inquiries() {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		$rows = Infocus_ERP_CRUD::get_all( 'inquiries', array( 'orderby' => 'id', 'order' => 'DESC' ) );
 		?>
-		<div class="wrap infocus-erp-wrap">
-			<h1>Inquiries</h1>
-			<p>Shortcode for this form: <code>[infocus_inquiry_form]</code>. Submissions from the public inquiry form on your website. Brand-new leads land here as <strong>Pending Review</strong> — approve them to add them to your customer list, or reject to discard. Existing clients (matched by phone/email) skip straight to the normal workflow.</p>
-			<table class="wp-list-table widefat fixed striped">
-				<thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Service</th><th>Client</th><th>Quality</th><th>Status</th><th>Received</th><th>Actions</th></tr></thead>
-				<tbody>
-				<?php if ( empty( $rows ) ) : ?>
-					<tr><td colspan="9">No inquiries yet.</td></tr>
-				<?php else : foreach ( $rows as $row ) : ?>
-					<tr>
-						<td><?php echo esc_html( $row['name'] ); ?></td>
-						<td><?php echo esc_html( $row['phone'] ); ?></td>
-						<td><?php echo esc_html( $row['email'] ); ?></td>
-						<td><?php echo esc_html( $row['service_type'] ); ?></td>
-						<td><?php echo $row['is_new_client'] ? '<span style="color:#2271b1;font-weight:600;">New client</span>' : '<span style="color:#646970;">Existing client</span>'; ?></td>
-						<td>
-							<?php
-							$flag = $row['quality_flag'];
-							$color = $flag === 'Likely genuine' ? '#1A6B6B' : ( $flag === 'Looks suspicious' ? '#9A1F1F' : ( $flag ? '#D4AF37' : '#646970' ) );
-							echo $flag ? '<span style="color:' . esc_attr( $color ) . ';font-weight:600;">' . esc_html( $flag ) . '</span>' : '—';
-							?>
-						</td>
-						<td>
-							<?php if ( $row['status'] === 'Pending Review' ) : ?>
-								<span style="font-weight:600;color:#9A1F1F;">Pending Review</span>
-							<?php else : ?>
-								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:flex;gap:6px;">
-									<?php wp_nonce_field( 'infocus_erp_inquiry_status' ); ?>
-									<input type="hidden" name="action" value="infocus_erp_update_inquiry_status">
-									<input type="hidden" name="id" value="<?php echo (int) $row['id']; ?>">
-									<select name="status" onchange="this.form.submit()">
-										<?php foreach ( array( 'New', 'Contacted', 'Converted' ) as $opt ) : ?>
-											<option value="<?php echo esc_attr( $opt ); ?>" <?php selected( $row['status'], $opt ); ?>><?php echo esc_html( $opt ); ?></option>
-										<?php endforeach; ?>
-									</select>
-								</form>
-							<?php endif; ?>
-						</td>
-						<td><?php echo esc_html( $row['created_at'] ); ?></td>
-						<td>
-							<?php if ( $row['status'] === 'Pending Review' ) : ?>
-								<a class="button button-small button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_approve_inquiry&id=' . $row['id'] ), 'infocus_erp_inquiry_approval' ) ); ?>">Approve</a>
-								<a class="button button-small" style="color:#9A1F1F;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_reject_inquiry&id=' . $row['id'] ), 'infocus_erp_inquiry_approval' ) ); ?>" onclick="return confirm('Reject and permanently delete this inquiry? This cannot be undone.');">Reject</a>
-							<?php else : ?>
-								<a class="button button-small" href="<?php echo esc_url( admin_url( 'admin.php?page=infocus-erp-bookings&prefill_customer_id=' . (int) $row['matched_customer_id'] . '&prefill_service_type=' . rawurlencode( $row['service_type'] ) . '&prefill_notes=' . rawurlencode( trim( $row['additional_requirements'] . ' ' . $row['message'] ) ) ) ); ?>">Convert to booking</a>
-							<?php endif; ?>
-							<?php if ( ! empty( $row['phone'] ) ) :
-								$package = Infocus_ERP_Public_Forms::find_matching_package( $row['service_type'] );
-								$wa_message = "Hi " . $row['name'] . "! Thanks for your interest in our " . $row['service_type'] . " package." . ( $package && ! empty( $package['brochure_url'] ) ? " Here's our full package guide: " . $package['brochure_url'] : '' );
-								$wa_link = Infocus_ERP_Public_Forms::build_whatsapp_link( $row['phone'], $wa_message );
-							?>
-								<a class="button button-small" style="color:#1A6B6B;" href="<?php echo esc_url( $wa_link ); ?>" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-							<?php endif; ?>
-						</td>
-					</tr>
-				<?php endforeach; endif; ?>
-				</tbody>
-			</table>
-		</div>
+		<div id="infocus-erp-app" data-screen="inquiries" style="margin-left:-20px;"></div>
 		<?php
 	}
 
-	public static function handle_inquiry_status_update() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_inquiry_status' );
-		Infocus_ERP_CRUD::update( 'inquiries', (int) $_POST['id'], array( 'status' => sanitize_text_field( $_POST['status'] ) ) );
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-inquiries' ) );
-		exit;
-	}
-
-	public static function handle_approve_inquiry() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_inquiry_approval' );
-		Infocus_ERP_Public_Forms::approve_inquiry( (int) $_GET['id'] );
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-inquiries' ) );
-		exit;
-	}
-
-	public static function handle_reject_inquiry() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_inquiry_approval' );
-		Infocus_ERP_Public_Forms::reject_inquiry( (int) $_GET['id'] );
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-inquiries' ) );
-		exit;
-	}
 
 	public static function render_requirements_list() {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		$rows     = Infocus_ERP_CRUD::get_all( 'shoot_requirements', array( 'orderby' => 'id', 'order' => 'DESC' ) );
-		$page_url = get_option( 'infocus_erp_requirements_page_url', home_url( '/shoot-consultation/' ) );
 		?>
-		<div class="wrap infocus-erp-wrap">
-			<h1>Shoot Requirements</h1>
-			<p>Shortcode for this form: <code>[infocus_shoot_requirements]</code>. Links are generated from the Bookings screen ("Requirements Link"). Each link is unique to one booking and only that client can use it.</p>
-			<table class="wp-list-table widefat fixed striped">
-				<thead><tr><th>Booking</th><th>Preferred time</th><th>Theme</th><th>Outfit</th><th>Location</th><th>Reference links</th><th>Notes</th><th>Status</th><th>Link</th></tr></thead>
-				<tbody>
-				<?php if ( empty( $rows ) ) : ?>
-					<tr><td colspan="9">No requirements links generated yet.</td></tr>
-				<?php else : foreach ( $rows as $row ) :
-					$links = ! empty( $row['reference_links'] ) ? json_decode( $row['reference_links'], true ) : array();
-					$link  = add_query_arg( 'rid', $row['token'], $page_url );
-				?>
-					<tr>
-						<td><?php echo self::ref_label( 'bookings', $row['booking_id'] ); ?></td>
-						<td><?php echo esc_html( $row['preferred_time'] ); ?></td>
-						<td><?php echo esc_html( $row['theme'] ); ?></td>
-						<td><?php echo esc_html( $row['outfit'] ); ?></td>
-						<td><?php echo esc_html( $row['location_preference'] ); ?></td>
-						<td>
-							<?php if ( empty( $links ) ) : ?>
-								—
-							<?php else : foreach ( $links as $i => $l ) : if ( ! $l ) continue; ?>
-								<a href="<?php echo esc_url( $l ); ?>" target="_blank" rel="noopener noreferrer">Link <?php echo (int) $i + 1; ?></a><br>
-							<?php endforeach; endif; ?>
-						</td>
-						<td><?php echo esc_html( $row['additional_notes'] ); ?></td>
-						<td><?php echo $row['submitted_at'] ? 'Submitted' : 'Awaiting client'; ?></td>
-						<td><input type="text" readonly value="<?php echo esc_attr( $link ); ?>" style="width:100%;font-size:11px;" onclick="this.select();"></td>
-					</tr>
-				<?php endforeach; endif; ?>
-				</tbody>
-			</table>
-		</div>
+		<div id="infocus-erp-app" data-screen="requirements" style="margin-left:-20px;"></div>
 		<?php
 	}
 
 	public static function render_image_selections_list() {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		$rows = Infocus_ERP_CRUD::get_all( 'image_selections', array( 'orderby' => 'id', 'order' => 'DESC' ) );
 		?>
-		<div class="wrap infocus-erp-wrap">
-			<h1>Image Selections</h1>
-			<p>Shortcode for this form: <code>[infocus_image_selection]</code>. Which raw images each client picked for editing, plus any extras beyond their package with the estimated additional charge. Links are generated from the Bookings screen ("Image Selection Link").</p>
-			<table class="wp-list-table widefat fixed striped">
-				<thead><tr><th>Booking</th><th>Included images</th><th>Extra images</th><th>Est. extra charge</th><th>Notes</th><th>Status</th><th>Lock</th><th>Export</th></tr></thead>
-				<tbody>
-				<?php if ( empty( $rows ) ) : ?>
-					<tr><td colspan="8">No image selections yet.</td></tr>
-				<?php else : foreach ( $rows as $row ) :
-					$data     = ! empty( $row['selected_images'] ) ? json_decode( $row['selected_images'], true ) : array();
-					$included = is_array( $data ) && isset( $data['included'] ) ? $data['included'] : array();
-					$extra    = is_array( $data ) && isset( $data['extra'] ) ? $data['extra'] : array();
-					$booking  = Infocus_ERP_CRUD::get( 'bookings', $row['booking_id'] );
-					$customer = $booking ? Infocus_ERP_CRUD::get( 'customers', $booking['customer_id'] ) : null;
-					$fmt      = function ( $items ) {
-						return implode( ', ', array_map( function ( $i ) {
-							return $i['image'] . ( ! empty( $i['comment'] ) ? ' (' . $i['comment'] . ')' : '' );
-						}, array_filter( $items, function ( $i ) { return ! empty( $i['image'] ); } ) ) );
-					};
-					$summary = ( $customer['name'] ?? 'Client' ) . ' — ' . ( $booking['service_type'] ?? '' ) . ' (' . count( $included ) . ' included' . ( $row['extra_count'] > 0 ? ', ' . (int) $row['extra_count'] . ' extra, est. ₹' . number_format( $row['estimated_extra_charge'], 0 ) . ' additional' : '' ) . ")\n\nIncluded: " . $fmt( $included ) . "\nExtra: " . $fmt( $extra );
-					$locked   = Infocus_ERP_Image_Selection_Form::is_locked( $row );
-				?>
-					<tr>
-						<td><?php echo self::ref_label( 'bookings', $row['booking_id'] ); ?></td>
-						<td><?php echo esc_html( $fmt( $included ) ); ?></td>
-						<td><?php echo esc_html( $fmt( $extra ) ); ?></td>
-						<td>₹<?php echo number_format( $row['estimated_extra_charge'], 2 ); ?></td>
-						<td><?php echo esc_html( $row['extra_notes'] ); ?></td>
-						<td><?php echo $row['submitted_at'] ? 'Submitted' : 'Awaiting client'; ?></td>
-						<td>
-							<?php if ( $locked ) : ?>
-								<span style="color:var(--infocus-crimson);font-weight:600;">Locked</span><br>
-								<a class="button button-small" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_unlock_image_selection&id=' . $row['id'] ), 'infocus_erp_lock_toggle' ) ); ?>">Unlock</a>
-							<?php else : ?>
-								<span style="color:var(--infocus-teal);font-weight:600;">Open</span><br>
-								<?php if ( $row['submitted_at'] ) : ?>
-								<a class="button button-small" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_lock_image_selection&id=' . $row['id'] ), 'infocus_erp_lock_toggle' ) ); ?>">Lock now</a>
-								<?php endif; ?>
-							<?php endif; ?>
-						</td>
-						<td><textarea readonly style="width:100%;font-size:11px;height:60px;" onclick="this.select();"><?php echo esc_textarea( $summary ); ?></textarea></td>
-					</tr>
-				<?php endforeach; endif; ?>
-				</tbody>
-			</table>
-			<p><em>Tip: click any box in the Export column to select all the text, then copy — ready to paste into WhatsApp, Excel, or a message to Claude.</em></p>
-		</div>
+		<div id="infocus-erp-app" data-screen="image-selections" style="margin-left:-20px;"></div>
 		<?php
 	}
 
 	public static function render_invoices() {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		$page_url = get_option( 'infocus_erp_invoice_page_url', home_url( '/invoice/' ) );
-
-		if ( ! empty( $_GET['invoice_generated'] ) ) {
-			$inv = Infocus_ERP_CRUD::get( 'invoices', (int) $_GET['invoice_generated'] );
-			if ( $inv ) {
-				$link = add_query_arg( 'rid', $inv['token'], $page_url );
-				echo '<div class="notice notice-success"><p><strong>Invoice ' . esc_html( $inv['invoice_number'] ) . ' ready:</strong> <input type="text" readonly value="' . esc_attr( $link ) . '" style="width:60%;" onclick="this.select();"> — copy this and send it to the client.</p></div>';
-			}
-		}
-
-		$customers = Infocus_ERP_CRUD::get_all( 'customers', array( 'orderby' => 'id', 'order' => 'DESC' ) );
-		$invoices  = Infocus_ERP_CRUD::get_all( 'invoices', array( 'orderby' => 'id', 'order' => 'DESC' ) );
 		?>
-		<div class="wrap infocus-erp-wrap">
-			<h1>Invoices</h1>
-			<p>Shortcode for the invoice page: <code>[infocus_invoice]</code>. Booking invoices are generated from the "Generate Invoice" link on the Bookings screen and automatically pull in the package price, any advance paid, and extra-image charges. Use the form below for a one-off custom invoice instead.</p>
-
-			<div class="infocus-erp-columns">
-				<div class="infocus-erp-form-panel">
-					<h2>New Custom Invoice</h2>
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-						<?php wp_nonce_field( 'infocus_erp_custom_invoice' ); ?>
-						<input type="hidden" name="action" value="infocus_erp_create_custom_invoice">
-						<p class="infocus-field"><label>Customer *</label>
-							<select name="customer_id" required>
-								<option value="">— Select —</option>
-								<?php foreach ( $customers as $c ) : ?>
-									<option value="<?php echo (int) $c['id']; ?>"><?php echo esc_html( $c['name'] ); ?></option>
-								<?php endforeach; ?>
-							</select>
-						</p>
-						<p class="infocus-field"><label>Line Items</label>
-							<div id="infocus-invoice-items">
-								<div style="display:flex;gap:6px;margin-bottom:6px;">
-									<input type="text" name="item_description[]" placeholder="Description" style="flex:2;">
-									<input type="number" step="0.01" name="item_amount[]" placeholder="Amount (₹)" style="flex:1;">
-								</div>
-							</div>
-							<button type="button" id="infocus-add-item" class="button">+ Add line item</button>
-						</p>
-						<p class="infocus-field"><label>Advance Already Paid (₹, optional)</label><input type="number" step="0.01" name="advance_paid" value="0"></p>
-						<p class="infocus-field"><label>Notes (optional)</label><textarea name="notes" rows="2"></textarea></p>
-						<p><button type="submit" class="button button-primary">Create Invoice</button></p>
-					</form>
-				</div>
-
-				<div class="infocus-erp-list-panel">
-					<table class="wp-list-table widefat fixed striped">
-						<thead><tr><th>Invoice #</th><th>Customer</th><th>Date</th><th>Subtotal (₹)</th><th>Balance Due (₹)</th><th>Link</th></tr></thead>
-						<tbody>
-						<?php if ( empty( $invoices ) ) : ?>
-							<tr><td colspan="6">No invoices yet.</td></tr>
-						<?php else : foreach ( $invoices as $inv ) :
-							$link = add_query_arg( 'rid', $inv['token'], $page_url );
-						?>
-							<tr>
-								<td><?php echo esc_html( $inv['invoice_number'] ); ?></td>
-								<td><?php echo self::ref_label( 'customers', $inv['customer_id'] ); ?></td>
-								<td><?php echo esc_html( $inv['invoice_date'] ); ?></td>
-								<td>₹<?php echo number_format( $inv['subtotal'], 2 ); ?></td>
-								<td>₹<?php echo number_format( $inv['balance_due'], 2 ); ?></td>
-								<td><input type="text" readonly value="<?php echo esc_attr( $link ); ?>" style="width:100%;font-size:11px;" onclick="this.select();"></td>
-							</tr>
-						<?php endforeach; endif; ?>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<script>(function(){
-			var wrap=document.getElementById('infocus-invoice-items');
-			var btn=document.getElementById('infocus-add-item');
-			if(!wrap||!btn) return;
-			btn.addEventListener('click', function(){
-				var row=document.createElement('div');
-				row.style.cssText='display:flex;gap:6px;margin-bottom:6px;';
-				row.innerHTML='<input type="text" name="item_description[]" placeholder="Description" style="flex:2;"><input type="number" step="0.01" name="item_amount[]" placeholder="Amount (₹)" style="flex:1;">';
-				wrap.appendChild(row);
-			});
-		})();</script>
+		<div id="infocus-erp-app" data-screen="invoices" style="margin-left:-20px;"></div>
 		<?php
 	}
-
 }

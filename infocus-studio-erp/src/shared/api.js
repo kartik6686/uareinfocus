@@ -50,3 +50,39 @@ export function getImageSelectionLink( bookingId ) {
 export function getInvoiceLink( bookingId ) {
 	return apiFetch( { path: `${ NS }/bookings/${ bookingId }/invoice-link` } );
 }
+
+export function updateInquiry( id, fields ) {
+	return apiFetch( { path: `${ NS }/inquiries/${ id }`, method: 'PUT', data: fields } );
+}
+
+export function approveInquiry( id ) {
+	return apiFetch( { path: `${ NS }/inquiries/${ id }/approve`, method: 'POST' } );
+}
+
+export function rejectInquiry( id ) {
+	return apiFetch( { path: `${ NS }/inquiries/${ id }/reject`, method: 'POST' } );
+}
+
+export function getInquiryWhatsappLink( id ) {
+	return apiFetch( { path: `${ NS }/inquiries/${ id }/whatsapp-link` } );
+}
+
+export function getShootRequirements() {
+	return apiFetch( { path: `${ NS }/shoot-requirements` } );
+}
+
+export function getImageSelections() {
+	return apiFetch( { path: `${ NS }/image-selections` } );
+}
+
+export function setImageSelectionLock( id, lockOverride ) {
+	return apiFetch( { path: `${ NS }/image-selections/${ id }`, method: 'PUT', data: { lock_override: lockOverride } } );
+}
+
+export function getInvoices() {
+	return apiFetch( { path: `${ NS }/invoices` } );
+}
+
+export function createCustomInvoice( payload ) {
+	return apiFetch( { path: `${ NS }/invoices/custom`, method: 'POST', data: payload } );
+}

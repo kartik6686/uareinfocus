@@ -6,6 +6,7 @@ module.exports = {
 	entry: {
 		dashboard: path.resolve( __dirname, 'src/dashboard/index.js' ),
 		'entity-app': path.resolve( __dirname, 'src/entity-app/index.js' ),
+		workflow: path.resolve( __dirname, 'src/workflow/index.js' ),
 	},
 	output: {
 		...defaultConfig.output,

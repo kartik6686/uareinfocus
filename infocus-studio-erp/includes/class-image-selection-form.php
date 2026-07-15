@@ -25,8 +25,6 @@ class Infocus_ERP_Image_Selection_Form {
 		add_shortcode( 'infocus_image_selection', array( __CLASS__, 'render_form' ) );
 		add_action( 'admin_post_infocus_erp_submit_image_selection', array( __CLASS__, 'handle_submit' ) );
 		add_action( 'admin_post_nopriv_infocus_erp_submit_image_selection', array( __CLASS__, 'handle_submit' ) );
-		add_action( 'admin_post_infocus_erp_lock_image_selection', array( __CLASS__, 'handle_lock' ) );
-		add_action( 'admin_post_infocus_erp_unlock_image_selection', array( __CLASS__, 'handle_unlock' ) );
 	}
 
 	/**
@@ -46,22 +44,6 @@ class Infocus_ERP_Image_Selection_Form {
 		if ( empty( $row['submitted_at'] ) ) return false;
 		$hours = (float) get_option( 'infocus_erp_lock_after_hours', 4 );
 		return ( current_time( 'timestamp' ) - strtotime( $row['submitted_at'] ) ) >= ( $hours * HOUR_IN_SECONDS );
-	}
-
-	public static function handle_lock() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_lock_toggle' );
-		Infocus_ERP_CRUD::update( 'image_selections', (int) $_GET['id'], array( 'lock_override' => 'locked' ) );
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-image-selections' ) );
-		exit;
-	}
-
-	public static function handle_unlock() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_lock_toggle' );
-		Infocus_ERP_CRUD::update( 'image_selections', (int) $_GET['id'], array( 'lock_override' => 'unlocked' ) );
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-image-selections' ) );
-		exit;
 	}
 
 	private static function styles() {
