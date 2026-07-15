@@ -17,7 +17,7 @@ class Infocus_ERP_Admin_Pages {
 				'fields'  => array(
 					'customer_id'    => array( 'label' => 'Customer', 'type' => 'ref', 'ref' => 'customers', 'required' => true ),
 					'package_id'     => array( 'label' => 'Package (optional — auto-fills price & images below)', 'type' => 'ref', 'ref' => 'packages', 'required' => false ),
-					'service_type'   => array( 'label' => 'Service Type', 'type' => 'select', 'options' => array( 'Maternity', 'Newborn', 'Kids', 'Family', 'Wedding', 'Commercial', 'Corporate & Events', 'Other' ) ),
+					'service_type'   => array( 'label' => 'Service Type', 'type' => 'select', 'options' => array( 'Maternity', 'Newborn', 'Kids', 'Family', 'Commercial', 'Corporate & Events', 'Other' ) ),
 					'session_date'   => array( 'label' => 'Session Date', 'type' => 'date' ),
 					'session_time'   => array( 'label' => 'Session Time', 'type' => 'time' ),
 					'location'       => array( 'label' => 'Location', 'type' => 'text' ),

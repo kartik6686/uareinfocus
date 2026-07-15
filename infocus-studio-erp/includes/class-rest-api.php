@@ -487,7 +487,7 @@ class Infocus_ERP_REST_API {
 		}
 		$customer = $customer_result;
 
-		$known_services = array( 'Maternity', 'Newborn', 'Kids', 'Family', 'Wedding', 'Commercial', 'Corporate & Events', 'Other' );
+		$known_services = array( 'Maternity', 'Newborn', 'Kids', 'Family', 'Commercial', 'Corporate & Events', 'Other' );
 		$service_type   = isset( $body['service_type'] ) ? sanitize_text_field( $body['service_type'] ) : '';
 		if ( ! in_array( $service_type, $known_services, true ) ) {
 			$service_type = self::guess_service_type( $service_type );
@@ -637,7 +637,6 @@ class Infocus_ERP_REST_API {
 			'Newborn'            => array( 'newborn', 'new born', 'infant' ),
 			'Kids'               => array( 'kid', 'child', 'toddler' ),
 			'Family'             => array( 'family' ),
-			'Wedding'            => array( 'wedding', 'shaadi', 'marriage' ),
 			'Commercial'         => array( 'commercial', 'product', 'brand shoot' ),
 			'Corporate & Events' => array( 'corporate', 'event', 'conference' ),
 		);

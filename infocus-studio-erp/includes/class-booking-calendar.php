@@ -185,6 +185,7 @@ class Infocus_ERP_Booking_Calendar {
 				<button class="ifxbc-type is-active" data-type="Maternity" type="button">Maternity</button>
 				<button class="ifxbc-type" data-type="Newborn" type="button">Newborn</button>
 				<button class="ifxbc-type" data-type="Kids" type="button">Kids</button>
+				<button class="ifxbc-type" data-type="Family" type="button">Family</button>
 			</div>
 
 			<div class="ifxbc-panel">
