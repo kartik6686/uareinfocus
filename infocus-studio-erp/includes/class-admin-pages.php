@@ -139,6 +139,24 @@ class Infocus_ERP_Admin_Pages {
 
 	/* ---------------------------------------------------------------- */
 
+	/** Human-readable label for a referenced row. Still used by the Shoot Requirements, Image Selections, and Invoices screens (not yet rebuilt). */
+	private static function ref_label( $ref_entity, $id ) {
+		if ( ! $id ) return '—';
+		$row = Infocus_ERP_CRUD::get( $ref_entity, $id );
+		if ( ! $row ) return '#' . $id;
+		if ( $ref_entity === 'bookings' ) {
+			$c = Infocus_ERP_CRUD::get( 'customers', $row['customer_id'] );
+			$parts = array();
+			$parts[] = $c['name'] ?? 'Unknown client';
+			if ( ! empty( $c['phone'] ) ) $parts[] = $c['phone'];
+			$parts[] = $row['service_type'];
+			if ( ! empty( $row['session_date'] ) ) $parts[] = $row['session_date'];
+			return esc_html( implode( ' — ', array_filter( $parts ) ) );
+		}
+		if ( isset( $row['name'] ) ) return esc_html( $row['name'] );
+		return '#' . $id;
+	}
+
 	public static function render_entity_screen( $entity ) {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
 		$config  = self::entities()[ $entity ];
