@@ -18,3 +18,35 @@ export function getInquiries( { status } = {} ) {
 	const qs = status ? `?status=${ encodeURIComponent( status ) }` : '';
 	return apiFetch( { path: `${ NS }/inquiries${ qs }` } );
 }
+
+export function listEntity( entity ) {
+	return apiFetch( { path: `${ NS }/${ entity }` } );
+}
+
+export function getEntityRecord( entity, id ) {
+	return apiFetch( { path: `${ NS }/${ entity }/${ id }` } );
+}
+
+export function createEntityRecord( entity, fields ) {
+	return apiFetch( { path: `${ NS }/${ entity }`, method: 'POST', data: fields } );
+}
+
+export function updateEntityRecord( entity, id, fields ) {
+	return apiFetch( { path: `${ NS }/${ entity }/${ id }`, method: 'PUT', data: fields } );
+}
+
+export function deleteEntityRecord( entity, id ) {
+	return apiFetch( { path: `${ NS }/${ entity }/${ id }`, method: 'DELETE' } );
+}
+
+export function getRequirementsLink( bookingId ) {
+	return apiFetch( { path: `${ NS }/bookings/${ bookingId }/requirements-link` } );
+}
+
+export function getImageSelectionLink( bookingId ) {
+	return apiFetch( { path: `${ NS }/bookings/${ bookingId }/image-selection-link` } );
+}
+
+export function getInvoiceLink( bookingId ) {
+	return apiFetch( { path: `${ NS }/bookings/${ bookingId }/invoice-link` } );
+}

@@ -212,11 +212,21 @@
 	align-items: start;
 }
 
+/* WP core's own admin CSS (wp-admin/css/forms.css) defines an unscoped
+   .card { max-width: 520px; margin-top: 20px; padding: 16px 24px; ... }
+   rule that's live on every wp-admin screen. Reset what it sets that we
+   don't want, since only the properties we redeclare here override it. */
 #infocus-erp-app .card {
+	position: static;
+	margin-top: 0;
+	padding: 0;
+	min-width: 0;
+	max-width: none;
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
+	box-sizing: border-box;
 	overflow: hidden;
 }
 #infocus-erp-app .card-head {
@@ -439,6 +449,212 @@
 }
 #infocus-erp-app .error-note {
 	color: var(--danger);
+}
+
+/* ---------- entity list/form screens ---------- */
+
+#infocus-erp-app .toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16px;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+#infocus-erp-app .search {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	border-radius: 8px;
+	padding: 8px 12px;
+	font-size: 13px;
+	color: var(--ink-2);
+	min-width: 240px;
+}
+#infocus-erp-app .search input {
+	border: none;
+	background: none;
+	outline: none;
+	font-size: 13px;
+	color: var(--ink-2);
+	flex: 1;
+	min-width: 0;
+}
+#infocus-erp-app .search input::placeholder {
+	color: var(--muted);
+}
+#infocus-erp-app .filters {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+#infocus-erp-app .chip {
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--muted);
+	cursor: pointer;
+}
+#infocus-erp-app .chip.on {
+	background: var(--ink);
+	border-color: var(--ink);
+	color: #fff;
+}
+
+#infocus-erp-app table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+#infocus-erp-app thead th {
+	text-align: left;
+	font-size: 10.5px;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--muted);
+	font-weight: 700;
+	padding: 0 14px 10px;
+	border-bottom: 1px solid var(--border);
+	white-space: nowrap;
+}
+#infocus-erp-app tbody td {
+	padding: 12px 14px;
+	border-bottom: 1px solid var(--border);
+	color: var(--ink-2);
+	vertical-align: middle;
+}
+#infocus-erp-app tbody tr:last-child td {
+	border-bottom: none;
+}
+#infocus-erp-app tbody tr:hover {
+	background: var(--surface-2);
+}
+#infocus-erp-app td.num {
+	text-align: right;
+}
+#infocus-erp-app .cust-cell {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+}
+#infocus-erp-app .entity-actions {
+	display: flex;
+	gap: 4px;
+	justify-content: flex-end;
+	position: relative;
+}
+#infocus-erp-app .table-wrap {
+	overflow-x: auto;
+}
+
+#infocus-erp-app .menu {
+	position: absolute;
+	right: 0;
+	top: 32px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	box-shadow: var(--shadow);
+	min-width: 200px;
+	z-index: 20;
+	overflow: hidden;
+}
+#infocus-erp-app .menu button {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 9px 12px;
+	background: none;
+	border: none;
+	font-size: 13px;
+	color: var(--ink-2);
+	cursor: pointer;
+}
+#infocus-erp-app .menu button:hover {
+	background: var(--surface-2);
+}
+#infocus-erp-app .menu button.danger {
+	color: var(--danger);
+}
+#infocus-erp-app .menu-divider {
+	height: 1px;
+	background: var(--border);
+	margin: 4px 0;
+}
+
+#infocus-erp-app .toast {
+	position: fixed;
+	bottom: 24px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--ink);
+	color: #fff;
+	padding: 10px 18px;
+	border-radius: 8px;
+	font-size: 13px;
+	box-shadow: var(--shadow);
+	z-index: 100;
+}
+
+#infocus-erp-app .form-card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	padding: 22px 24px 24px;
+	max-width: 560px;
+}
+#infocus-erp-app .field {
+	margin-bottom: 16px;
+}
+#infocus-erp-app .field label {
+	display: block;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--ink-2);
+	margin-bottom: 6px;
+}
+#infocus-erp-app .field .req {
+	color: var(--danger);
+}
+#infocus-erp-app .field input[type="text"],
+#infocus-erp-app .field input[type="number"],
+#infocus-erp-app .field input[type="date"],
+#infocus-erp-app .field input[type="time"],
+#infocus-erp-app .field select,
+#infocus-erp-app .field textarea {
+	width: 100%;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--ink-2);
+	border-radius: 8px;
+	padding: 9px 11px;
+	font-size: 13.5px;
+	font-family: inherit;
+}
+#infocus-erp-app .field textarea {
+	resize: vertical;
+	min-height: 70px;
+}
+#infocus-erp-app .field input:focus,
+#infocus-erp-app .field select:focus,
+#infocus-erp-app .field textarea:focus {
+	outline: 2px solid var(--accent-fill);
+	outline-offset: 1px;
+}
+#infocus-erp-app .form-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+#infocus-erp-app .btn.ghost {
+	background: transparent;
+	box-shadow: none;
 }
 
 @media (max-width: 980px) {

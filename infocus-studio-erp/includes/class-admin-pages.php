@@ -112,7 +112,6 @@ class Infocus_ERP_Admin_Pages {
 
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
-		add_action( 'admin_init', array( __CLASS__, 'handle_form_submissions' ) );
 		add_action( 'admin_post_infocus_erp_update_inquiry_status', array( __CLASS__, 'handle_inquiry_status_update' ) );
 		add_action( 'admin_post_infocus_erp_approve_inquiry', array( __CLASS__, 'handle_approve_inquiry' ) );
 		add_action( 'admin_post_infocus_erp_reject_inquiry', array( __CLASS__, 'handle_reject_inquiry' ) );
@@ -140,211 +139,34 @@ class Infocus_ERP_Admin_Pages {
 
 	/* ---------------------------------------------------------------- */
 
-	public static function handle_form_submissions() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) return;
-		if ( ! isset( $_POST['infocus_erp_action'] ) ) return;
-		check_admin_referer( 'infocus_erp_save' );
-
-		$entity = sanitize_key( $_POST['entity'] );
-		$config = self::entities();
-		if ( ! isset( $config[ $entity ] ) ) return;
-
-		if ( $_POST['infocus_erp_action'] === 'delete' ) {
-			Infocus_ERP_CRUD::delete( $entity, (int) $_POST['id'] );
-			wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-' . $entity . '&deleted=1' ) );
-			exit;
-		}
-
-		$data = array();
-		foreach ( $config[ $entity ]['fields'] as $field => $def ) {
-			$value = isset( $_POST[ $field ] ) ? wp_unslash( $_POST[ $field ] ) : '';
-			if ( $def['type'] === 'textarea' ) {
-				$data[ $field ] = sanitize_textarea_field( $value );
-			} elseif ( $def['type'] === 'number' ) {
-				$data[ $field ] = $value === '' ? 0 : floatval( $value );
-			} elseif ( $def['type'] === 'ref' ) {
-				$data[ $field ] = $value === '' ? null : (int) $value;
-			} else {
-				$data[ $field ] = sanitize_text_field( $value );
-			}
-		}
-
-		if ( $_POST['infocus_erp_action'] === 'create' ) {
-			Infocus_ERP_CRUD::insert( $entity, $data );
-			wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-' . $entity . '&created=1' ) );
-		} else {
-			Infocus_ERP_CRUD::update( $entity, (int) $_POST['id'], $data );
-			wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-' . $entity . '&updated=1' ) );
-		}
-		exit;
-	}
-
-	/* ---------------------------------------------------------------- */
-
-	private static function ref_label( $ref_entity, $id ) {
-		if ( ! $id ) return '—';
-		$row = Infocus_ERP_CRUD::get( $ref_entity, $id );
-		if ( ! $row ) return '#' . $id;
-		if ( $ref_entity === 'bookings' ) {
-			$c = Infocus_ERP_CRUD::get( 'customers', $row['customer_id'] );
-			$parts = array();
-			$parts[] = $c['name'] ?? 'Unknown client';
-			if ( ! empty( $c['phone'] ) ) $parts[] = $c['phone'];
-			$parts[] = $row['service_type'];
-			if ( ! empty( $row['session_date'] ) ) $parts[] = $row['session_date'];
-			return esc_html( implode( ' — ', array_filter( $parts ) ) );
-		}
-		if ( isset( $row['name'] ) ) return esc_html( $row['name'] );
-		return '#' . $id;
-	}
-
 	public static function render_entity_screen( $entity ) {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		$config = self::entities()[ $entity ];
+		$config  = self::entities()[ $entity ];
 		$edit_id = isset( $_GET['edit'] ) ? (int) $_GET['edit'] : 0;
-		$editing = $edit_id ? Infocus_ERP_CRUD::get( $entity, $edit_id ) : null;
+		$view    = ( $edit_id || ( isset( $_GET['action'] ) && $_GET['action'] === 'add' ) ) ? 'form' : 'list';
 
-		echo '<div class="wrap infocus-erp-wrap">';
-		echo '<h1>' . esc_html( $config['label'] ) . '</h1>';
-
-		if ( isset( $_GET['created'] ) ) echo '<div class="notice notice-success"><p>Saved.</p></div>';
-		if ( isset( $_GET['updated'] ) ) echo '<div class="notice notice-success"><p>Updated.</p></div>';
-		if ( isset( $_GET['deleted'] ) ) echo '<div class="notice notice-success"><p>Deleted.</p></div>';
-
-		if ( $entity === 'bookings' && ! empty( $_GET['link_generated'] ) ) {
-			$row = Infocus_ERP_CRUD::get( 'shoot_requirements', (int) $_GET['link_generated'] );
-			if ( $row ) {
-				$page_url = get_option( 'infocus_erp_requirements_page_url', home_url( '/shoot-consultation/' ) );
-				$link     = add_query_arg( 'rid', $row['token'], $page_url );
-				echo '<div class="notice notice-success"><p><strong>Requirements link ready:</strong> <input type="text" readonly value="' . esc_attr( $link ) . '" style="width:60%;" onclick="this.select();"> — copy this and send it to the client.</p></div>';
-			}
-		}
-
-		if ( $entity === 'bookings' && ! empty( $_GET['image_link_generated'] ) ) {
-			$row = Infocus_ERP_CRUD::get( 'image_selections', (int) $_GET['image_link_generated'] );
-			if ( $row ) {
-				$page_url = get_option( 'infocus_erp_image_selection_page_url', home_url( '/select-images/' ) );
-				$link     = add_query_arg( 'rid', $row['token'], $page_url );
-				echo '<div class="notice notice-success"><p><strong>Image selection link ready:</strong> <input type="text" readonly value="' . esc_attr( $link ) . '" style="width:60%;" onclick="this.select();"> — copy this and send it to the client.</p></div>';
-			}
-		}
-
-		echo '<div class="infocus-erp-columns">';
-
-		// ---- Form ----
-		echo '<div class="infocus-erp-form-panel"><h2>' . ( $editing ? 'Edit ' . esc_html( $config['singular'] ) : 'Add New ' . esc_html( $config['singular'] ) ) . '</h2>';
-		echo '<form method="post">';
-		wp_nonce_field( 'infocus_erp_save' );
-		echo '<input type="hidden" name="entity" value="' . esc_attr( $entity ) . '">';
-		echo '<input type="hidden" name="infocus_erp_action" value="' . ( $editing ? 'update' : 'create' ) . '">';
-		if ( $editing ) echo '<input type="hidden" name="id" value="' . (int) $editing['id'] . '">';
-
+		$prefill = array();
 		foreach ( $config['fields'] as $field => $def ) {
-			$val = $editing[ $field ] ?? ( isset( $_GET[ 'prefill_' . $field ] ) ? sanitize_text_field( wp_unslash( $_GET[ 'prefill_' . $field ] ) ) : '' );
-			echo '<p class="infocus-field"><label>' . esc_html( $def['label'] ) . ( ! empty( $def['required'] ) ? ' *' : '' ) . '</label>';
-
-			if ( $def['type'] === 'select' ) {
-				echo '<select name="' . esc_attr( $field ) . '">';
-				echo '<option value="">— Select —</option>';
-				foreach ( $def['options'] as $opt ) {
-					echo '<option value="' . esc_attr( $opt ) . '"' . selected( $val, $opt, false ) . '>' . esc_html( $opt ) . '</option>';
-				}
-				echo '</select>';
-			} elseif ( $def['type'] === 'ref' ) {
-				$rows = Infocus_ERP_CRUD::get_all( $def['ref'], array( 'orderby' => 'id', 'order' => 'DESC' ) );
-				echo '<select name="' . esc_attr( $field ) . '"' . ( $def['ref'] === 'packages' ? ' id="infocus-package-select"' : '' ) . '>';
-				echo '<option value="">— Select —</option>';
-				foreach ( $rows as $r ) {
-					if ( $def['ref'] === 'bookings' ) {
-						$c     = Infocus_ERP_CRUD::get( 'customers', $r['customer_id'] );
-						$label = trim( implode( ' — ', array_filter( array( $c['name'] ?? 'Unknown client', $c['phone'] ?? '', $r['service_type'], $r['session_date'] ?? '' ) ) ) );
-					} else {
-						$label = $r['name'] ?? ( 'Booking #' . $r['id'] );
-					}
-					$extra_attrs = '';
-					if ( $def['ref'] === 'packages' ) {
-						$extra_attrs = ' data-price="' . esc_attr( $r['price'] ) . '" data-images="' . esc_attr( $r['included_edits'] ) . '"';
-					}
-					echo '<option value="' . (int) $r['id'] . '"' . selected( $val, $r['id'], false ) . $extra_attrs . '>' . esc_html( $label ) . '</option>';
-				}
-				echo '</select>';
-			} elseif ( $def['type'] === 'textarea' ) {
-				echo '<textarea name="' . esc_attr( $field ) . '" rows="3">' . esc_textarea( $val ) . '</textarea>';
-			} else {
-				$type = $def['type'] === 'number' ? 'number' : ( $def['type'] === 'date' ? 'date' : ( $def['type'] === 'time' ? 'time' : 'text' ) );
-				$step = $def['type'] === 'number' ? ' step="0.01"' : '';
-				echo '<input type="' . esc_attr( $type ) . '" id="infocus-field-' . esc_attr( $field ) . '" name="' . esc_attr( $field ) . '" value="' . esc_attr( $val ) . '"' . $step . '>';
+			if ( isset( $_GET[ 'prefill_' . $field ] ) ) {
+				$prefill[ $field ] = sanitize_text_field( wp_unslash( $_GET[ 'prefill_' . $field ] ) );
 			}
-			echo '</p>';
 		}
 
-		echo '<p><button type="submit" class="button button-primary">' . ( $editing ? 'Update' : 'Save' ) . '</button>';
-		if ( $editing ) echo ' <a href="' . esc_url( admin_url( 'admin.php?page=infocus-erp-' . $entity ) ) . '" class="button">Cancel</a>';
-		echo '</p></form></div>';
-
-		if ( $entity === 'bookings' ) {
-			echo '<script>(function(){
-var sel=document.getElementById("infocus-package-select");
-var price=document.getElementById("infocus-field-package_price");
-var images=document.getElementById("infocus-field-included_edits");
-if(sel&&price&&images){
-  sel.addEventListener("change",function(){
-    var opt=sel.options[sel.selectedIndex];
-    if(opt&&opt.value){
-      if(opt.dataset.price!==undefined) price.value=opt.dataset.price;
-      if(opt.dataset.images!==undefined) images.value=opt.dataset.images;
-    }
-  });
-}
-})();</script>';
-		}
-
-		// ---- List ----
-		echo '<div class="infocus-erp-list-panel">';
-		$rows = Infocus_ERP_CRUD::get_all( $entity, array( 'orderby' => 'id', 'order' => 'DESC' ) );
-		echo '<table class="wp-list-table widefat fixed striped"><thead><tr>';
-		foreach ( $config['columns'] as $label ) echo '<th>' . esc_html( $label ) . '</th>';
-		if ( $entity === 'pipeline' ) echo '<th>Timeline</th>';
-		echo '<th>Actions</th></tr></thead><tbody>';
-
-		if ( empty( $rows ) ) {
-			echo '<tr><td colspan="' . ( count( $config['columns'] ) + 1 + ( $entity === 'pipeline' ? 1 : 0 ) ) . '">No records yet.</td></tr>';
-		}
-
-		foreach ( $rows as $row ) {
-			echo '<tr>';
-			foreach ( array_keys( $config['columns'] ) as $col ) {
-				$def = $config['fields'][ $col ] ?? null;
-				$v   = $row[ $col ] ?? '';
-				if ( $col === 'id' ) {
-					echo '<td>#' . (int) $v . '</td>';
-				} elseif ( $def && $def['type'] === 'ref' ) {
-					echo '<td>' . self::ref_label( $def['ref'], $v ) . '</td>';
-				} else {
-					echo '<td>' . esc_html( $v ) . '</td>';
-				}
-			}
-			if ( $entity === 'pipeline' ) {
-				echo '<td>' . self::pipeline_timeline_cell( $row ) . '</td>';
-			}
-			echo '<td>';
-			echo '<a href="' . esc_url( admin_url( 'admin.php?page=infocus-erp-' . $entity . '&edit=' . $row['id'] ) ) . '">Edit</a> | ';
-			if ( $entity === 'bookings' ) {
-				echo '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_generate_requirements_link&booking_id=' . $row['id'] ), 'infocus_erp_gen_link' ) ) . '">Requirements Link</a> | ';
-				echo '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_generate_image_link&booking_id=' . $row['id'] ), 'infocus_erp_gen_link' ) ) . '">Image Selection Link</a> | ';
-				echo '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_generate_invoice&booking_id=' . $row['id'] ), 'infocus_erp_gen_link' ) ) . '">Generate Invoice</a> | ';
-			}
-			echo '<form method="post" style="display:inline" onsubmit="return confirm(\'Delete this record?\');">';
-			wp_nonce_field( 'infocus_erp_save' );
-			echo '<input type="hidden" name="entity" value="' . esc_attr( $entity ) . '">';
-			echo '<input type="hidden" name="infocus_erp_action" value="delete">';
-			echo '<input type="hidden" name="id" value="' . (int) $row['id'] . '">';
-			echo '<button type="submit" class="button-link-delete">Delete</button>';
-			echo '</form>';
-			echo '</td></tr>';
-		}
-		echo '</tbody></table></div>';
-		echo '</div></div>';
+		wp_localize_script( 'infocus-erp-entity-app', 'infocusErpEntity', array(
+			'entity'   => $entity,
+			'label'    => $config['label'],
+			'singular' => $config['singular'],
+			'columns'  => $config['columns'],
+			'fields'   => $config['fields'],
+			'view'     => $view,
+			'editId'   => $edit_id,
+			'prefill'  => $prefill,
+			'adminUrl' => admin_url( '/' ),
+			'userName' => wp_get_current_user()->display_name,
+		) );
+		?>
+		<div id="infocus-erp-app" style="margin-left:-20px;"></div>
+		<?php
 	}
 
 	/* ---------------------------------------------------------------- */
@@ -818,26 +640,4 @@ if(sel&&price&&images){
 		<?php
 	}
 
-	/** Renders the mini graphical progress bar shown in the Editor Pipeline list's Timeline column. */
-	private static function pipeline_timeline_cell( $row ) {
-		if ( $row['status'] === 'Delivered' || Infocus_ERP_CRUD::is_real_date( $row['delivered_date'] ) ) {
-			return '<span style="color:var(--infocus-teal);font-size:12px;font-weight:600;">Delivered</span>';
-		}
-		if ( ! Infocus_ERP_CRUD::is_real_date( $row['expected_date'] ) ) {
-			return '<span style="color:var(--infocus-slate);font-size:12px;">No deadline set — add an Expected Delivery date to track this one</span>';
-		}
-
-		$start_ts     = Infocus_ERP_CRUD::is_real_date( $row['assigned_date'] ) ? strtotime( $row['assigned_date'] ) : strtotime( $row['created_at'] );
-		$deadline_ts  = strtotime( $row['expected_date'] );
-		$days_elapsed = max( 0, (int) floor( ( current_time( 'timestamp' ) - $start_ts ) / DAY_IN_SECONDS ) );
-		$days_total   = max( 1, (int) round( ( $deadline_ts - $start_ts ) / DAY_IN_SECONDS ) );
-		$days_left    = (int) floor( ( $deadline_ts - current_time( 'timestamp' ) ) / DAY_IN_SECONDS );
-		$percent      = min( 100, max( 0, (int) round( ( $days_elapsed / $days_total ) * 100 ) ) );
-		$is_overdue   = $days_left < 0;
-		$color        = $is_overdue ? 'var(--infocus-crimson)' : ( $percent >= 66 ? 'var(--infocus-gold)' : 'var(--infocus-teal)' );
-		$label        = $is_overdue ? 'Overdue' : $days_left . 'd left';
-
-		return '<div style="font-size:11px;color:' . esc_attr( $color ) . ';font-weight:600;margin-bottom:3px;">' . esc_html( $label ) . '</div>'
-			. '<div style="height:5px;width:100px;background:rgba(107,122,143,0.15);border-radius:4px;overflow:hidden;"><div style="height:5px;width:' . (int) $percent . '%;background:' . esc_attr( $color ) . ';"></div></div>';
-	}
 }

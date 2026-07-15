@@ -31,8 +31,10 @@ const GROUPS = [
 	},
 ];
 
-export default function Sidebar( { adminUrl, currentUserName } ) {
+export default function Sidebar( { adminUrl, currentUserName, active = 'infocus-erp' } ) {
 	const initial = ( currentUserName || '?' ).trim().charAt( 0 ).toUpperCase();
+	const linkClass = ( slug ) => 'nav-item' + ( slug === active ? ' active' : '' );
+
 	return (
 		<nav className="rail" aria-label="Primary">
 			<div className="brand">
@@ -49,7 +51,7 @@ export default function Sidebar( { adminUrl, currentUserName } ) {
 			</div>
 
 			<div className="nav-label">Overview</div>
-			<a className="nav-item active" href={ `${ adminUrl }admin.php?page=infocus-erp` }>
+			<a className={ linkClass( 'infocus-erp' ) } href={ `${ adminUrl }admin.php?page=infocus-erp` }>
 				Dashboard
 			</a>
 
@@ -57,7 +59,7 @@ export default function Sidebar( { adminUrl, currentUserName } ) {
 				<div key={ group.label }>
 					<div className="nav-label">{ group.label }</div>
 					{ group.items.map( ( item ) => (
-						<a key={ item.slug } className="nav-item" href={ `${ adminUrl }admin.php?page=${ item.slug }` }>
+						<a key={ item.slug } className={ linkClass( item.slug ) } href={ `${ adminUrl }admin.php?page=${ item.slug }` }>
 							{ item.label }
 						</a>
 					) ) }

@@ -106,11 +106,13 @@ class Infocus_ERP_REST_API {
 			},
 		) );
 
+		$admin_perm = array( 'Infocus_ERP_Security', 'check_admin_or_api_key' );
+
 		foreach ( array( 'customers', 'bookings', 'payments', 'employees', 'pipeline', 'expenses', 'packages' ) as $entity ) {
 			register_rest_route( self::NS, "/$entity", array(
 				array(
 					'methods'             => 'GET',
-					'permission_callback' => $perm,
+					'permission_callback' => $admin_perm,
 					'callback'            => function ( $request ) use ( $entity ) {
 						$where = array();
 						if ( $request->get_param( 'status' ) ) $where['status'] = sanitize_text_field( $request->get_param( 'status' ) );
@@ -119,7 +121,7 @@ class Infocus_ERP_REST_API {
 				),
 				array(
 					'methods'             => 'POST',
-					'permission_callback' => $perm,
+					'permission_callback' => $admin_perm,
 					'callback'            => function ( $request ) use ( $entity ) {
 						return self::wrap( self::do_create( $entity, (array) $request->get_json_params() ) );
 					},
@@ -129,7 +131,7 @@ class Infocus_ERP_REST_API {
 			register_rest_route( self::NS, "/$entity/(?P<id>\d+)", array(
 				array(
 					'methods'             => 'GET',
-					'permission_callback' => $perm,
+					'permission_callback' => $admin_perm,
 					'callback'            => function ( $request ) use ( $entity ) {
 						$row = Infocus_ERP_CRUD::get( $entity, (int) $request['id'] );
 						return $row ? rest_ensure_response( $row ) : new WP_Error( 'not_found', 'Not found', array( 'status' => 404 ) );
@@ -137,20 +139,48 @@ class Infocus_ERP_REST_API {
 				),
 				array(
 					'methods'             => 'PUT',
-					'permission_callback' => $perm,
+					'permission_callback' => $admin_perm,
 					'callback'            => function ( $request ) use ( $entity ) {
 						return self::wrap( self::do_update( $entity, (int) $request['id'], (array) $request->get_json_params() ) );
 					},
 				),
 				array(
 					'methods'             => 'DELETE',
-					'permission_callback' => $perm,
+					'permission_callback' => $admin_perm,
 					'callback'            => function ( $request ) use ( $entity ) {
 						return self::wrap( self::do_delete( $entity, (int) $request['id'] ) );
 					},
 				),
 			) );
 		}
+
+		// Booking-scoped "generate a client link" actions. Same underlying
+		// logic the MCP tools (get_requirements_link, get_image_selection_link,
+		// get_invoice_link) call — exposed here so the admin's Bookings screen
+		// can trigger them directly instead of a full-page admin-post redirect.
+		register_rest_route( self::NS, '/bookings/(?P<id>\d+)/requirements-link', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( Infocus_ERP_Public_Forms::get_or_create_requirements_link( (int) $request['id'] ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/bookings/(?P<id>\d+)/image-selection-link', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( Infocus_ERP_Image_Selection_Form::get_or_create_image_link( (int) $request['id'] ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/bookings/(?P<id>\d+)/invoice-link', array(
+			'methods'             => 'GET',
+			'permission_callback' => $admin_perm,
+			'callback'            => function ( $request ) {
+				return self::wrap( Infocus_ERP_Invoices::generate_invoice_for_booking( (int) $request['id'] ) );
+			},
+		) );
 	}
 
 	/** Turns a plain array/WP_Error result into a REST response. Used by routes; MCP calls do_* directly. */

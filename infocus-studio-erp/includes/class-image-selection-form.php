@@ -25,7 +25,6 @@ class Infocus_ERP_Image_Selection_Form {
 		add_shortcode( 'infocus_image_selection', array( __CLASS__, 'render_form' ) );
 		add_action( 'admin_post_infocus_erp_submit_image_selection', array( __CLASS__, 'handle_submit' ) );
 		add_action( 'admin_post_nopriv_infocus_erp_submit_image_selection', array( __CLASS__, 'handle_submit' ) );
-		add_action( 'admin_post_infocus_erp_generate_image_link', array( __CLASS__, 'handle_generate_link' ) );
 		add_action( 'admin_post_infocus_erp_lock_image_selection', array( __CLASS__, 'handle_lock' ) );
 		add_action( 'admin_post_infocus_erp_unlock_image_selection', array( __CLASS__, 'handle_unlock' ) );
 	}
@@ -343,20 +342,7 @@ class Infocus_ERP_Image_Selection_Form {
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$t['image_selections']} WHERE token = %s", $token ), ARRAY_A );
 	}
 
-	/** Admin-only: creates (or reuses) an image-selection link for a booking. */
-	public static function handle_generate_link() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_gen_link' );
-
-		$booking_id = (int) ( $_GET['booking_id'] ?? 0 );
-		$result     = self::get_or_create_image_link( $booking_id );
-		if ( is_wp_error( $result ) ) wp_die( $result->get_error_message() );
-
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-bookings&image_link_generated=' . $result['row_id'] ) );
-		exit;
-	}
-
-	/** Creates (or reuses) an image-selection link for a booking. Shared by the admin button and the MCP get_image_selection_link tool. */
+	/** Creates (or reuses) an image-selection link for a booking. Shared by the admin Bookings screen (via REST) and the MCP get_image_selection_link tool. */
 	public static function get_or_create_image_link( $booking_id ) {
 		if ( ! $booking_id || ! Infocus_ERP_CRUD::get( 'bookings', $booking_id ) ) {
 			return new WP_Error( 'not_found', 'Booking not found.' );

@@ -32,7 +32,6 @@ class Infocus_ERP_Public_Forms {
 		add_action( 'admin_post_infocus_erp_submit_requirements', array( __CLASS__, 'handle_requirements_submit' ) );
 		add_action( 'admin_post_nopriv_infocus_erp_submit_requirements', array( __CLASS__, 'handle_requirements_submit' ) );
 
-		add_action( 'admin_post_infocus_erp_generate_requirements_link', array( __CLASS__, 'handle_generate_link' ) );
 
 		add_action( 'wp_footer', array( __CLASS__, 'render_thankyou_toast' ) );
 	}
@@ -576,19 +575,7 @@ class Infocus_ERP_Public_Forms {
 		self::redirect_with_thankyou( 'Thank you — your preferences have been saved.' );
 	}
 
-	public static function handle_generate_link() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_gen_link' );
-
-		$booking_id = (int) ( $_GET['booking_id'] ?? 0 );
-		$result     = self::get_or_create_requirements_link( $booking_id );
-		if ( is_wp_error( $result ) ) wp_die( $result->get_error_message() );
-
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-bookings&link_generated=' . $result['row_id'] ) );
-		exit;
-	}
-
-	/** Creates (or reuses) a shoot-requirements link for a booking. Shared by the admin button and the MCP get_requirements_link tool. */
+	/** Creates (or reuses) a shoot-requirements link for a booking. Shared by the admin Bookings screen (via REST) and the MCP get_requirements_link tool. */
 	public static function get_or_create_requirements_link( $booking_id ) {
 		if ( ! $booking_id || ! Infocus_ERP_CRUD::get( 'bookings', $booking_id ) ) {
 			return new WP_Error( 'not_found', 'Booking not found.' );

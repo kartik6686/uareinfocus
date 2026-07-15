@@ -77,5 +77,19 @@ add_action(
 				) );
 			}
 		}
+
+		// The React-rendered entity screens (Phase 2). Only the seven generic
+		// CRUD entities (bookings, customers, ...) load this bundle — the
+		// bespoke screens (Inquiries, Settings, Invoices, ...) are untouched.
+		$page   = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		$entity = strpos( $page, 'infocus-erp-' ) === 0 ? substr( $page, strlen( 'infocus-erp-' ) ) : '';
+		if ( $entity && array_key_exists( $entity, Infocus_ERP_Admin_Pages::entities() ) ) {
+			$asset_file = INFOCUS_ERP_PATH . 'build/entity-app.asset.php';
+			if ( file_exists( $asset_file ) ) {
+				$asset = require $asset_file;
+				wp_enqueue_script( 'infocus-erp-entity-app', INFOCUS_ERP_URL . 'build/entity-app.js', $asset['dependencies'], $asset['version'], true );
+				wp_enqueue_style( 'infocus-erp-entity-app', INFOCUS_ERP_URL . 'build/entity-app.css', array(), $asset['version'] );
+			}
+		}
 	}
 );

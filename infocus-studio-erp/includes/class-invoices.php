@@ -25,28 +25,15 @@ class Infocus_ERP_Invoices {
 
 	public static function init() {
 		add_shortcode( 'infocus_invoice', array( __CLASS__, 'render_invoice_page' ) );
-		add_action( 'admin_post_infocus_erp_generate_invoice', array( __CLASS__, 'handle_generate_from_booking' ) );
 		add_action( 'admin_post_infocus_erp_create_custom_invoice', array( __CLASS__, 'handle_create_custom' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
 
-	public static function handle_generate_from_booking() {
-		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
-		check_admin_referer( 'infocus_erp_gen_link' );
-
-		$booking_id = (int) ( $_GET['booking_id'] ?? 0 );
-		$result     = self::generate_invoice_for_booking( $booking_id );
-		if ( is_wp_error( $result ) ) wp_die( $result->get_error_message() );
-
-		wp_safe_redirect( admin_url( 'admin.php?page=infocus-erp-invoices&invoice_generated=' . $result['invoice_id'] ) );
-		exit;
-	}
-
 	/**
 	 * Creates (or reuses, if one already exists for this booking) an
 	 * invoice from a booking — auto-pulling package price, advance paid,
-	 * and any extra-image charge. Shared by the admin "Generate Invoice"
+	 * and any extra-image charge. Shared by the admin Bookings screen (via REST)
 	 * button and the MCP get_invoice_link tool.
 	 */
 	public static function generate_invoice_for_booking( $booking_id ) {
