@@ -17,6 +17,7 @@ define( 'INFOCUS_ERP_VERSION', '1.11.1' );
 define( 'INFOCUS_ERP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'INFOCUS_ERP_URL', plugin_dir_url( __FILE__ ) );
 
+require_once INFOCUS_ERP_PATH . 'includes/class-brand.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-db.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-crud.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-security.php';
@@ -24,6 +25,7 @@ require_once INFOCUS_ERP_PATH . 'includes/class-reports.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-export.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-rest-api.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-mcp-server.php';
+require_once INFOCUS_ERP_PATH . 'includes/class-public-assets.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-public-forms.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-booking-calendar.php';
 require_once INFOCUS_ERP_PATH . 'includes/class-image-selection-form.php';
@@ -39,6 +41,7 @@ add_action(
 		Infocus_ERP_Export::init();
 		Infocus_ERP_REST_API::init();
 		Infocus_ERP_MCP_Server::init();
+		Infocus_ERP_Public_Assets::init();
 		Infocus_ERP_Public_Forms::init();
 		Infocus_ERP_Booking_Calendar::init();
 		Infocus_ERP_Image_Selection_Form::init();

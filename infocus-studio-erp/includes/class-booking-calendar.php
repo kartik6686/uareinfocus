@@ -113,90 +113,39 @@ class Infocus_ERP_Booking_Calendar {
 		return $taken < $capacity;
 	}
 
-	private static function shared_styles() {
-		// Reuses the exact palette/class prefix style as the other public forms for visual consistency.
-		return '<style>
-.ifxbc-wrap{max-width:900px;margin:0 auto;font-family:inherit;}
-.ifxbc-head{text-align:center;max-width:600px;margin:0 auto 32px;}
-.ifxbc-eyebrow{display:inline-block;font-size:14px;letter-spacing:.28em;text-transform:uppercase;color:#D4AF37;font-weight:600;margin-bottom:14px;}
-.ifxbc-title{font-family:Georgia,\'Times New Roman\',serif;font-weight:600;font-size:clamp(26px,4vw,36px);color:#131357;margin:0;}
-.ifxbc-sub{margin-top:10px;font-size:15px;color:#6B7A8F;}
-.ifxbc-types{display:flex;justify-content:center;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
-.ifxbc-type{font-weight:600;font-size:13px;color:#131357;background:#fff;border:1.5px solid rgba(19,19,87,.18);border-radius:999px;padding:9px 18px;cursor:pointer;}
-.ifxbc-type.is-active{background:#131357;color:#F8F8FF;border-color:#131357;}
-.ifxbc-panel{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;border-radius:16px;box-shadow:0 20px 50px -22px rgba(19,19,87,.16);overflow:hidden;}
-.ifxbc-cal{padding:26px;}
-.ifxbc-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.ifxbc-month{font-family:Georgia,\'Times New Roman\',serif;font-weight:600;font-size:16px;color:#131357;}
-.ifxbc-nav{width:28px;height:28px;border-radius:50%;border:1px solid rgba(19,19,87,.15);background:#fff;color:#131357;cursor:pointer;}
-.ifxbc-nav:disabled{opacity:.3;cursor:not-allowed;}
-.ifxbc-dow{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:4px;}
-.ifxbc-dow span{font-size:11px;color:#6B7A8F;font-weight:600;}
-.ifxbc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.ifxbc-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:13px;color:#131357;cursor:pointer;border:none;background:transparent;position:relative;}
-.ifxbc-day:hover:not(:disabled):not(.is-empty){background:rgba(212,175,55,.18);}
-.ifxbc-day.is-selected{background:#D4AF37;color:#131357;font-weight:600;}
-.ifxbc-day.has-slots::after,.ifxbc-day.is-sunday::after,.ifxbc-day.is-full::after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:#D4AF37;position:absolute;bottom:3px;}
-.ifxbc-day.is-sunday{border:1.3px dashed rgba(180,120,20,.5);}
-.ifxbc-day.is-sunday::after{background:#B87814;}
-.ifxbc-day.is-full{border:1.3px dashed rgba(155,40,40,.35);}
-.ifxbc-day.is-full::after{background:#9B2828;}
-.ifxbc-day:disabled{color:rgba(19,19,87,.2);cursor:not-allowed;}
-.ifxbc-day.is-empty{visibility:hidden;}
-.ifxbc-slots{background:#FBF7F0;padding:26px;border-left:1px solid rgba(19,19,87,.06);}
-.ifxbc-slots h3{font-family:Georgia,\'Times New Roman\',serif;font-size:14px;color:#131357;margin:0 0 14px;}
-.ifxbc-slot{display:block;width:100%;text-align:left;font-size:13px;font-weight:600;color:#131357;background:#fff;border:1.3px solid rgba(19,19,87,.15);border-radius:8px;padding:10px 14px;cursor:pointer;margin-bottom:8px;}
-.ifxbc-slot:hover{border-color:#D4AF37;}
-.ifxbc-slot.is-selected{background:#131357;color:#F8F8FF;border-color:#131357;}
-.ifxbc-slot.is-requestonly{border-style:dashed;border-color:rgba(155,40,40,.4);}
-.ifxbc-slot.is-requestonly.is-selected{background:#9B2828;border-color:#9B2828;}
-.ifxbc-tag{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;color:#9B2828;background:#F9E4E4;padding:2px 6px;border-radius:5px;vertical-align:middle;}
-.ifxbc-slot.is-selected .ifxbc-tag{color:#fff;background:rgba(255,255,255,.2);}
-.ifxbc-note{background:#F9E4E4;border:1px solid rgba(155,40,40,.3);border-radius:10px;padding:14px;font-size:13px;color:#7a3030;margin-top:8px;line-height:1.5;}
-.ifxbc-note.is-sunday{background:#FCEFD9;border-color:rgba(180,120,20,.35);color:#7a5c1f;}
-.ifxbc-empty{font-size:13px;color:#6B7A8F;font-style:italic;}
-.ifxbc-summary{margin-top:20px;font-size:13px;font-weight:600;color:#131357;text-align:center;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);border-radius:10px;padding:12px;}
-.ifxbc-form{margin-top:18px;}
-.ifxbc-form input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:none;background:rgba(19,19,87,.05);font-size:14px;margin-bottom:12px;}
-.ifxbc-form button{width:100%;background:#131357;color:#F8F8FF;border:none;border-radius:24px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;}
-.ifxbc-form-note{margin-top:12px;text-align:center;font-size:12px;color:#6B7A8F;font-style:italic;}
-@media (max-width:768px){.ifxbc-panel{grid-template-columns:1fr;} .ifxbc-slots{border-left:none;border-top:1px solid rgba(19,19,87,.06);}}
-</style>';
-	}
-
 	public static function render() {
 		ob_start();
-		echo self::shared_styles();
 
 		$rest_url = esc_url( get_rest_url( null, Infocus_ERP_REST_API::NS . '/booking-availability' ) );
 		?>
+		<div class="infocus-public">
 		<div class="ifxbc-wrap">
-			<div class="ifxbc-head">
-				<span class="ifxbc-eyebrow">Book a Session</span>
-				<h2 class="ifxbc-title">Pick a Date That Works for You</h2>
-				<p class="ifxbc-sub">Select a session type, choose a date, and pick a time. We'll confirm your request personally.</p>
+			<div class="ifc-head">
+				<span class="ifc-eyebrow">Book a Session</span>
+				<h2 class="ifc-title">Pick a Date That Works for You</h2>
+				<p class="ifc-sub">Select a session type, choose a date, and pick a time. We'll confirm your request personally.</p>
 			</div>
 
 			<?php if ( isset( $_GET['infocus_booked'] ) ) : ?>
 				<div class="ifxbc-summary" style="margin-bottom:20px;">Thanks — your request has been logged. We'll reach out on WhatsApp to confirm.</div>
 			<?php endif; ?>
 
-			<div class="ifxbc-types" id="ifxbcTypes">
-				<button class="ifxbc-type is-active" data-type="Maternity" type="button">Maternity</button>
-				<button class="ifxbc-type" data-type="Newborn" type="button">Newborn</button>
-				<button class="ifxbc-type" data-type="Kids" type="button">Kids</button>
-				<button class="ifxbc-type" data-type="Family" type="button">Family</button>
+			<div class="ifc-pills" id="ifxbcTypes" style="justify-content:center;">
+				<button class="ifc-pill is-active" data-type="Maternity" type="button">Maternity</button>
+				<button class="ifc-pill" data-type="Newborn" type="button">Newborn</button>
+				<button class="ifc-pill" data-type="Kids" type="button">Kids</button>
+				<button class="ifc-pill" data-type="Family" type="button">Family</button>
 			</div>
 
 			<div class="ifxbc-panel">
 				<div class="ifxbc-cal">
-					<div class="ifxbc-cal-head">
-						<button class="ifxbc-nav" id="ifxbcPrev" type="button">‹</button>
-						<span class="ifxbc-month" id="ifxbcMonthLabel"></span>
-						<button class="ifxbc-nav" id="ifxbcNext" type="button">›</button>
+					<div class="ifc-cal-head">
+						<button class="ifc-cal-nav" id="ifxbcPrev" type="button">‹</button>
+						<span class="ifc-cal-month" id="ifxbcMonthLabel"></span>
+						<button class="ifc-cal-nav" id="ifxbcNext" type="button">›</button>
 					</div>
-					<div class="ifxbc-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
-					<div class="ifxbc-grid" id="ifxbcGrid"></div>
+					<div class="ifc-cal-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+					<div class="ifc-cal-grid" id="ifxbcGrid"></div>
 				</div>
 				<div class="ifxbc-slots">
 					<h3 id="ifxbcSlotsTitle">Select a date</h3>
@@ -217,11 +166,12 @@ class Infocus_ERP_Booking_Calendar {
 
 				<div class="ifxbc-summary" id="ifxbcSummary" style="display:none;"></div>
 
-				<input type="text" name="name" placeholder="Your Name" required>
-				<input type="tel" name="phone" placeholder="Phone Number" required>
-				<button type="submit">Confirm Booking Request</button>
+				<input class="ifc-input" type="text" name="name" placeholder="Your Name" required>
+				<input class="ifc-input" type="tel" name="phone" placeholder="Phone Number" required>
+				<button class="ifc-btn" type="submit">Confirm Booking Request</button>
 				<p class="ifxbc-form-note">Your booking will be confirmed only after receiving an advance amount.</p>
 			</form>
+		</div>
 		</div>
 
 		<script>
@@ -237,7 +187,7 @@ class Infocus_ERP_Booking_Calendar {
 			var prevBtn = document.getElementById('ifxbcPrev');
 			var nextBtn = document.getElementById('ifxbcNext');
 			var summary = document.getElementById('ifxbcSummary');
-			var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+			var MONTHS = InfocusPublic.MONTHS;
 
 			function fetchAvailability(y, m, cb){
 				fetch(restUrl + '?year=' + y + '&month=' + (m+1))
@@ -246,42 +196,30 @@ class Infocus_ERP_Booking_Calendar {
 					.catch(function(){ monthData = {}; cb(); });
 			}
 
-			function pad(n){ return n < 10 ? '0'+n : ''+n; }
-			function dateKey(y,m,d){ return y+'-'+pad(m+1)+'-'+pad(d); }
-
 			function renderCalendar(){
-				monthLabel.textContent = MONTHS[viewMonth] + ' ' + viewYear;
-				grid.innerHTML = '';
-				var firstDay = new Date(viewYear, viewMonth, 1).getDay();
-				var daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
-				var isCurrentMonth = (viewYear === today.getFullYear() && viewMonth === today.getMonth());
-
-				for(var i=0;i<firstDay;i++){
-					var empty = document.createElement('button');
-					empty.className = 'ifxbc-day is-empty'; empty.disabled = true;
-					grid.appendChild(empty);
-				}
-				for(var d=1; d<=daysInMonth; d++){
-					var btn = document.createElement('button');
-					btn.type = 'button'; btn.className = 'ifxbc-day'; btn.textContent = d;
-					var key = dateKey(viewYear, viewMonth, d);
-					var isPast = isCurrentMonth && d < today.getDate();
-					var info = monthData[key] || { is_sunday:false, morning:true, postlunch:true };
-
-					if(isPast){
-						btn.disabled = true;
-					} else {
-						if(info.is_sunday) btn.classList.add('is-sunday');
-						else if(info.morning || info.postlunch) btn.classList.add('has-slots');
-						else btn.classList.add('is-full');
-						btn.addEventListener('click', (function(k, label, dinfo){
-							return function(){ selectDate(k, label, dinfo); };
-						})(key, MONTHS[viewMonth] + ' ' + d + ', ' + viewYear, info));
+				InfocusPublic.renderMonth({
+					year: viewYear,
+					month: viewMonth,
+					gridEl: grid,
+					monthLabelEl: monthLabel,
+					prevBtn: prevBtn,
+					dayClass: 'ifc-cal-day ifxbc-cal-day',
+					decorate: function(btn, y, m, d, isPast){
+						var key = InfocusPublic.dateKey(y, m, d);
+						var info = monthData[key] || { is_sunday:false, morning:true, postlunch:true };
+						if(!isPast){
+							if(info.is_sunday) btn.classList.add('is-sunday');
+							else if(info.morning || info.postlunch) btn.classList.add('has-slots');
+							else btn.classList.add('is-full');
+						}
+						if(key === selectedDate) btn.classList.add('is-selected');
+					},
+					onDayClick: function(y, m, d, btn){
+						var key = InfocusPublic.dateKey(y, m, d);
+						var info = monthData[key] || { is_sunday:false, morning:true, postlunch:true };
+						selectDate(key, MONTHS[m] + ' ' + d + ', ' + y, info);
 					}
-					if(key === selectedDate) btn.classList.add('is-selected');
-					grid.appendChild(btn);
-				}
-				prevBtn.disabled = isCurrentMonth;
+				});
 			}
 
 			function selectDate(key, label, info){
@@ -339,9 +277,9 @@ class Infocus_ERP_Booking_Calendar {
 				viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;}
 				fetchAvailability(viewYear, viewMonth, renderCalendar);
 			});
-			document.querySelectorAll('.ifxbc-type').forEach(function(btn){
+			document.querySelectorAll('#ifxbcTypes .ifc-pill').forEach(function(btn){
 				btn.addEventListener('click', function(){
-					document.querySelectorAll('.ifxbc-type').forEach(function(b){ b.classList.remove('is-active'); });
+					document.querySelectorAll('#ifxbcTypes .ifc-pill').forEach(function(b){ b.classList.remove('is-active'); });
 					btn.classList.add('is-active');
 					selectedType = btn.dataset.type;
 					document.getElementById('ifxbcServiceType').value = selectedType;

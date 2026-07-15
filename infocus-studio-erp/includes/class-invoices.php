@@ -16,13 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class Infocus_ERP_Invoices {
 
-	const BRAND_BG      = '#F8F8FF';
-	const BRAND_NAVY    = '#131357';
-	const BRAND_GOLD    = '#D4AF37';
-	const BRAND_SLATE   = '#6B7A8F';
-	const BRAND_CRIMSON = '#9A1F1F';
-	const BRAND_TEAL    = '#1A6B6B';
-
 	public static function init() {
 		add_shortcode( 'infocus_invoice', array( __CLASS__, 'render_invoice_page' ) );
 	}
@@ -139,51 +132,18 @@ class Infocus_ERP_Invoices {
 		$invoice = $token ? self::find_by_token( $token ) : null;
 
 		if ( ! $invoice ) {
-			return '<div style="max-width:500px;padding:20px;background:' . self::BRAND_BG . ';border-radius:10px;color:#4B0082;">This invoice link isn\'t valid. Please check the link, or ask for a new one.</div>';
+			return '<div class="infocus-public"><div style="max-width:500px;padding:20px;background:' . Infocus_ERP_Brand::BG . ';border-radius:10px;color:#4B0082;">This invoice link isn\'t valid. Please check the link, or ask for a new one.</div></div>';
 		}
 
 		$customer   = Infocus_ERP_CRUD::get( 'customers', $invoice['customer_id'] );
 		$booking    = $invoice['booking_id'] ? Infocus_ERP_CRUD::get( 'bookings', $invoice['booking_id'] ) : null;
 		$line_items = ! empty( $invoice['line_items'] ) ? json_decode( $invoice['line_items'], true ) : array();
 		$logo_id    = get_option( 'infocus_erp_logo_id' );
-		$logo_html  = $logo_id ? wp_get_attachment_image( $logo_id, 'medium', false, array( 'style' => 'max-height:56px;max-width:220px;object-fit:contain;' ) ) : '<div style="font-size:12px;letter-spacing:0.35em;color:' . self::BRAND_GOLD . ';font-weight:500;">INFOCUS</div>';
+		$logo_html  = $logo_id ? wp_get_attachment_image( $logo_id, 'medium', false, array( 'style' => 'max-height:56px;max-width:220px;object-fit:contain;' ) ) : '<div class="inv-logo-fallback">INFOCUS</div>';
 
 		ob_start();
 		?>
-		<style id="infocus-invoice-styles">
-		.inv-page{background:<?php echo self::BRAND_NAVY; ?>;padding:32px 16px;border-radius:4px;}
-		.inv-wrap{max-width:600px;margin:0 auto;background:<?php echo self::BRAND_BG; ?>;border:1px solid rgba(212,175,55,0.5);position:relative;font-family:inherit;}
-		.inv-frame{position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:0.5px solid rgba(212,175,55,0.35);pointer-events:none;}
-		.inv-head{padding:48px 48px 28px;text-align:center;}
-		.inv-tagline{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:13px;color:<?php echo self::BRAND_SLATE; ?>;margin:14px 0 18px;}
-		.inv-rule{width:48px;height:1px;background:<?php echo self::BRAND_GOLD; ?>;margin:0 auto 18px;}
-		.inv-title{font-family:Georgia,'Times New Roman',serif;font-size:26px;color:<?php echo self::BRAND_NAVY; ?>;letter-spacing:0.02em;}
-		.inv-meta{padding:0 48px 28px;display:flex;justify-content:space-between;font-size:12px;color:<?php echo self::BRAND_SLATE; ?>;}
-		.inv-cols{padding:0 48px 32px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
-		.inv-col{flex:1;min-width:200px;}
-		.inv-col.right{text-align:right;}
-		.inv-label{font-size:10px;letter-spacing:0.15em;color:<?php echo self::BRAND_GOLD; ?>;margin-bottom:8px;}
-		.inv-name{font-family:Georgia,'Times New Roman',serif;font-size:17px;color:<?php echo self::BRAND_NAVY; ?>;margin-bottom:4px;}
-		.inv-detail{font-size:12px;color:<?php echo self::BRAND_SLATE; ?>;line-height:1.7;}
-		.inv-divider{margin:0 48px;border-top:0.5px solid rgba(212,175,55,0.4);}
-		.inv-items{padding:28px 48px 8px;}
-		.inv-item-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:0.5px solid rgba(107,122,143,0.15);}
-		.inv-item-desc{font-size:13px;color:<?php echo self::BRAND_NAVY; ?>;padding-right:16px;}
-		.inv-item-amt{font-family:Georgia,'Times New Roman',serif;font-size:13px;color:<?php echo self::BRAND_NAVY; ?>;white-space:nowrap;}
-		.inv-totals-wrap{padding:16px 48px 8px;display:flex;justify-content:flex-end;}
-		.inv-totals{width:230px;}
-		.inv-totals-row{display:flex;justify-content:space-between;font-size:12px;color:<?php echo self::BRAND_SLATE; ?>;padding:4px 0;}
-		.inv-totals-row.paid{color:<?php echo self::BRAND_TEAL; ?>;}
-		.inv-due{border-top:1px solid <?php echo self::BRAND_GOLD; ?>;margin-top:8px;padding-top:10px;display:flex;justify-content:space-between;align-items:baseline;}
-		.inv-due-label{font-size:11px;letter-spacing:0.1em;color:<?php echo self::BRAND_SLATE; ?>;}
-		.inv-due-amt{font-family:Georgia,'Times New Roman',serif;font-size:26px;color:<?php echo self::BRAND_CRIMSON; ?>;}
-		.inv-close{text-align:center;padding:36px 48px 44px;}
-		.inv-close-line{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:13px;color:<?php echo self::BRAND_SLATE; ?>;}
-		.inv-actions{text-align:center;padding:0 0 24px;}
-		.inv-btn{background:<?php echo self::BRAND_GOLD; ?>;border:1px solid <?php echo self::BRAND_GOLD; ?>;color:<?php echo self::BRAND_NAVY; ?>;border-radius:20px;padding:9px 20px;font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s ease,transform 0.2s ease;}
-		.inv-btn:hover{background:#e8c968;transform:translateY(-1px);}
-		.inv-btn:active{transform:translateY(0);}
-		</style>
+		<div class="infocus-public">
 		<div class="inv-page">
 		<div class="inv-wrap" id="infocus-invoice-content">
 			<div class="inv-frame"></div>
@@ -232,7 +192,7 @@ class Infocus_ERP_Invoices {
 					</div>
 				</div>
 			</div>
-			<?php if ( ! empty( $invoice['notes'] ) ) : ?><p style="padding:0 48px;font-size:12px;color:<?php echo self::BRAND_SLATE; ?>;"><?php echo esc_html( $invoice['notes'] ); ?></p><?php endif; ?>
+			<?php if ( ! empty( $invoice['notes'] ) ) : ?><p class="inv-notes"><?php echo esc_html( $invoice['notes'] ); ?></p><?php endif; ?>
 			<div class="inv-close">
 				<div class="inv-rule"></div>
 				<div class="inv-close-line">It has been our privilege to capture your story.</div>
@@ -242,15 +202,16 @@ class Infocus_ERP_Invoices {
 			<button class="inv-btn" id="infocus-print-invoice">Print / Save as PDF</button>
 		</div>
 		</div>
+		</div>
 		<script>
 		(function(){
 			var btn = document.getElementById('infocus-print-invoice');
 			if (!btn) return;
 			btn.addEventListener('click', function(){
 				var content = document.getElementById('infocus-invoice-content').outerHTML;
-				var styles = document.getElementById('infocus-invoice-styles').outerHTML;
+				var cssHref = <?php echo wp_json_encode( INFOCUS_ERP_URL . 'assets/css/public.css' ); ?>;
 				var win = window.open('', '_blank', 'width=700,height=900');
-				win.document.write('<!DOCTYPE html><html><head><title>Invoice <?php echo esc_js( $invoice['invoice_number'] ); ?></title>' + styles + '<style>body{margin:0;padding:24px;background:#fff;}</style></head><body>' + content + '</body></html>');
+				win.document.write('<!DOCTYPE html><html><head><title>Invoice <?php echo esc_js( $invoice['invoice_number'] ); ?></title><link rel="stylesheet" href="' + cssHref + '"><style>body{margin:0;padding:24px;background:#fff;}</style></head><body><div class="infocus-public">' + content + '</div></body></html>');
 				win.document.close();
 				win.focus();
 				setTimeout(function(){ win.print(); }, 300);
