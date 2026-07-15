@@ -1,0 +1,5 @@
+node_modules/
+infocus-studio-erp/build/
+infocus-studio-erp/assets/js/dist/
+*.log
+.DS_Store

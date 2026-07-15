@@ -1,0 +1,138 @@
+:root {
+	--infocus-bg: #F8F8FF;
+	--infocus-navy: #131357;
+	--infocus-gold: #D4AF37;
+	--infocus-slate: #6B7A8F;
+	--infocus-crimson: #9A1F1F;
+	--infocus-teal: #1A6B6B;
+	--infocus-purple: #4B0082;
+}
+
+.infocus-erp-wrap {
+	max-width: 1400px;
+	color: var(--infocus-navy);
+}
+
+.infocus-app h1 { display: none; }
+
+.infocus-topbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px 0 18px;
+}
+
+.infocus-h1 { font-size: 22px; font-weight: 600; color: var(--infocus-navy); }
+.infocus-sub { font-size: 13px; color: var(--infocus-slate); margin-top: 2px; }
+
+.infocus-btn-ghost, .infocus-btn-primary {
+	display: inline-block;
+	border-radius: 8px;
+	padding: 9px 16px;
+	font-size: 13px;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+}
+.infocus-btn-ghost { border: 1px solid rgba(107,122,143,0.4); background: #fff; color: var(--infocus-navy); }
+.infocus-btn-primary { border: none; background: var(--infocus-crimson); color: var(--infocus-bg); }
+.infocus-btn-ghost:hover { background: rgba(19,19,87,0.04); color: var(--infocus-navy); }
+.infocus-btn-primary:hover { opacity: 0.92; color: var(--infocus-bg); }
+
+.infocus-alert-banner {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	background: rgba(154,31,31,0.08);
+	border-left: 3px solid var(--infocus-crimson);
+	border-radius: 8px;
+	padding: 12px 14px;
+	margin-bottom: 18px;
+}
+.infocus-alert-banner .dashicons { color: var(--infocus-crimson); margin-top: 2px; }
+.infocus-alert-title { font-size: 13px; font-weight: 600; color: var(--infocus-crimson); }
+.infocus-alert-detail { font-size: 12px; color: var(--infocus-slate); margin-top: 2px; }
+
+.infocus-kpi-row {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	margin-bottom: 18px;
+}
+.infocus-kpi-card {
+	background: #fff;
+	border: 0.5px solid rgba(107,122,143,0.25);
+	border-radius: 12px;
+	padding: 16px;
+}
+.infocus-kpi-card .dashicons { color: var(--infocus-slate); font-size: 18px; }
+.infocus-kpi-label { font-size: 12px; color: var(--infocus-slate); margin: 8px 0 4px; }
+.infocus-kpi-num { font-size: 22px; font-weight: 600; color: var(--infocus-navy); }
+.infocus-num-teal { color: var(--infocus-teal); }
+.infocus-num-crimson { color: var(--infocus-crimson); }
+
+.infocus-card-panel {
+	background: #fff;
+	border: 0.5px solid rgba(107,122,143,0.25);
+	border-radius: 12px;
+	padding: 18px;
+}
+.infocus-card-panel h2 { font-size: 14px; font-weight: 600; margin: 20px 0 10px; }
+.infocus-card-panel h2:first-child { margin-top: 0; }
+
+.infocus-cal-nav {
+	width: 28px; height: 28px;
+	display: inline-flex; align-items: center; justify-content: center;
+	border: 0.5px solid rgba(107,122,143,0.3);
+	border-radius: 6px;
+	color: var(--infocus-slate);
+	text-decoration: none;
+}
+.infocus-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.infocus-cal-dow { font-size: 11px; color: var(--infocus-slate); text-align: center; margin-bottom: 4px; }
+.infocus-cal-day {
+	text-align: center;
+	font-size: 12px;
+	padding: 8px 0;
+	border-radius: 8px;
+	color: var(--infocus-navy);
+}
+.infocus-cal-day.has-booking { cursor: pointer; position: relative; }
+.infocus-cal-day.has-booking:hover { background: rgba(19,19,87,0.06); }
+.infocus-cal-day.has-booking::after {
+	content: "";
+	position: absolute;
+	bottom: 2px; left: 50%;
+	transform: translateX(-50%);
+	width: 4px; height: 4px;
+	border-radius: 50%;
+	background: var(--infocus-navy);
+}
+.infocus-cal-day.is-today { background: var(--infocus-gold); font-weight: 600; }
+.infocus-cal-day.is-selected { background: var(--infocus-navy); color: var(--infocus-bg); }
+.infocus-cal-day.is-selected.has-booking::after { background: var(--infocus-gold); }
+.infocus-day-detail { margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(107,122,143,0.2); }
+.infocus-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+
+.infocus-deadline-row { margin-bottom: 16px; }
+.infocus-deadline-row:last-child { margin-bottom: 0; }
+.infocus-deadline-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--infocus-navy); }
+.infocus-deadline-bar-track { height: 6px; background: rgba(107,122,143,0.15); border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+.infocus-deadline-bar-fill { height: 6px; border-radius: 4px; }
+
+/* Legacy panels — still used on Export, Settings, Invoices, and every entity add/edit screen */
+.infocus-erp-columns { display: flex; gap: 16px; align-items: flex-start; margin-top: 16px; flex-wrap: wrap; }
+.infocus-erp-form-panel { background: #fff; border: 0.5px solid rgba(107,122,143,0.25); border-radius: 12px; padding: 20px; width: 320px; flex-shrink: 0; }
+.infocus-erp-list-panel { background: #fff; border: 0.5px solid rgba(107,122,143,0.25); border-radius: 12px; padding: 20px; flex: 1; min-width: 320px; }
+.infocus-erp-list-panel h2, .infocus-erp-form-panel h2 { font-size: 15px; font-weight: 600; margin-top: 0; }
+
+.infocus-field { margin-bottom: 12px; }
+.infocus-field label { display: block; font-weight: 500; font-size: 13px; color: var(--infocus-slate); margin-bottom: 4px; }
+.infocus-field input, .infocus-field select, .infocus-field textarea { width: 100%; border-radius: 8px; }
+
+/* Tables — flatter, cleaner rows throughout every screen */
+.infocus-erp-wrap .wp-list-table { border: 0.5px solid rgba(107,122,143,0.2); border-radius: 10px; overflow: hidden; }
+.infocus-erp-wrap .wp-list-table th { background: rgba(19,19,87,0.03); color: var(--infocus-slate); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+.infocus-erp-wrap .wp-list-table td { font-size: 13px; color: var(--infocus-navy); }
+.infocus-erp-wrap .button-primary { background: var(--infocus-crimson); border-color: var(--infocus-crimson); }
+.infocus-erp-wrap .button-primary:hover { background: #7E1919; border-color: #7E1919; }
