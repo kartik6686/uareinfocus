@@ -102,7 +102,7 @@ class Infocus_ERP_Admin_Pages {
 					'category'       => array( 'label' => 'Category', 'type' => 'select', 'options' => array( 'Maternity', 'Newborn', 'Kids', 'Combo', 'Milestone' ) ),
 					'price'          => array( 'label' => 'Price (₹)', 'type' => 'number', 'required' => true ),
 					'included_edits' => array( 'label' => 'Images Included', 'type' => 'number' ),
-					'is_popular'     => array( 'label' => 'Mark as Popular (★)', 'type' => 'select', 'options' => array( 'No', 'Yes' ) ),
+					'is_popular'     => array( 'label' => 'Mark as Popular (★)', 'type' => 'boolean' ),
 					'brochure_url'   => array( 'label' => 'Brochure PDF URL (optional — paste from Media Library)', 'type' => 'text' ),
 					'description'    => array( 'label' => 'Description', 'type' => 'textarea' ),
 				),
@@ -181,26 +181,39 @@ class Infocus_ERP_Admin_Pages {
 	public static function render_export() {
 		if ( ! Infocus_ERP_Security::current_user_allowed() ) wp_die( 'Not allowed.' );
 		?>
-		<div class="wrap infocus-erp-wrap">
-			<h1>Export / Backup</h1>
-			<p>Download your data any time. These files are plain CSV — they open in Excel, Google Sheets, or any spreadsheet tool, and stay usable even if this website or plugin is removed.</p>
-
-			<h2>Full Backup</h2>
-			<p><a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_all' ), 'infocus_erp_export' ) ); ?>">Download Everything (ZIP of all CSVs)</a></p>
-
-			<h2>Individual Sections</h2>
-			<p>
-			<?php foreach ( self::entities() as $key => $cfg ) : ?>
-				<a class="button" style="margin:0 6px 6px 0;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=' . $key ), 'infocus_erp_export' ) ); ?>"><?php echo esc_html( $cfg['label'] ); ?> CSV</a>
-			<?php endforeach; ?>
-			<a class="button" style="margin:0 6px 6px 0;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=inquiries' ), 'infocus_erp_export' ) ); ?>">Inquiries CSV</a>
-			<a class="button" style="margin:0 6px 6px 0;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=shoot_requirements' ), 'infocus_erp_export' ) ); ?>">Shoot Requirements CSV</a>
-			<a class="button" style="margin:0 6px 6px 0;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=image_selections' ), 'infocus_erp_export' ) ); ?>">Image Selections CSV</a>
-			<a class="button" style="margin:0 6px 6px 0;" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=invoices' ), 'infocus_erp_export' ) ); ?>">Invoices CSV</a>
-			</p>
-			<p><em>Tip: schedule a monthly reminder to download the full backup — it takes one click.</em></p>
-		</div>
+		<div id="infocus-erp-app" data-screen="export"></div>
 		<?php
+	}
+
+	/**
+	 * Builds the nonce-signed CSV/ZIP download URLs for the Export screen.
+	 * These are real file downloads (admin-post.php), not REST/fetch calls,
+	 * so the URLs are built server-side and passed to React via localize.
+	 */
+	public static function export_localize_data() {
+		$labels = array(
+			'inquiries'          => 'Inquiries',
+			'shoot_requirements' => 'Shoot Requirements',
+			'image_selections'   => 'Image Selections',
+			'invoices'           => 'Invoices',
+		);
+		foreach ( self::entities() as $key => $cfg ) {
+			$labels[ $key ] = $cfg['label'];
+		}
+
+		$sections = array();
+		foreach ( Infocus_ERP_DB::tables() as $key => $table ) {
+			$sections[] = array(
+				'key'   => $key,
+				'label' => isset( $labels[ $key ] ) ? $labels[ $key ] : ucwords( str_replace( '_', ' ', $key ) ),
+				'url'   => wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_csv&entity=' . $key ), 'infocus_erp_export' ),
+			);
+		}
+
+		return array(
+			'sections'       => $sections,
+			'fullBackupUrl'  => wp_nonce_url( admin_url( 'admin-post.php?action=infocus_erp_export_all' ), 'infocus_erp_export' ),
+		);
 	}
 
 	/* ---------------------------------------------------------------- */

@@ -54,7 +54,9 @@ class Infocus_ERP_Export {
 		$zippath = $tmpdir . $zipname;
 
 		$zip = new ZipArchive();
-		$zip->open( $zippath, ZipArchive::CREATE | ZipArchive::OVERWRITE );
+		if ( true !== $zip->open( $zippath, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
+			wp_die( 'Could not create the export ZIP file. Please try again or export each section individually as CSV.' );
+		}
 
 		foreach ( $tables as $entity ) {
 			$rows = Infocus_ERP_CRUD::get_all( $entity, array( 'orderby' => 'id', 'order' => 'ASC' ) );

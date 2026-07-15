@@ -104,6 +104,7 @@ add_action(
 			'infocus-erp-requirements'     => 'requirements',
 			'infocus-erp-image-selections' => 'image-selections',
 			'infocus-erp-invoices'         => 'invoices',
+			'infocus-erp-export'           => 'export',
 		);
 		if ( isset( $workflow_screens[ $page ] ) ) {
 			$asset_file = INFOCUS_ERP_PATH . 'build/workflow.asset.php';
@@ -111,10 +112,16 @@ add_action(
 				$asset = require $asset_file;
 				wp_enqueue_script( 'infocus-erp-workflow', INFOCUS_ERP_URL . 'build/workflow.js', $asset['dependencies'], $asset['version'], true );
 				wp_enqueue_style( 'infocus-erp-workflow', INFOCUS_ERP_URL . 'build/workflow.css', array(), $asset['version'] );
-				wp_localize_script( 'infocus-erp-workflow', 'infocusErpWorkflow', array(
+				$workflow_data = array(
 					'adminUrl' => admin_url( '/' ),
 					'userName' => wp_get_current_user()->display_name,
-				) );
+				);
+				if ( 'export' === $workflow_screens[ $page ] ) {
+					$export_data                        = Infocus_ERP_Admin_Pages::export_localize_data();
+					$workflow_data['exportSections']     = $export_data['sections'];
+					$workflow_data['exportFullBackupUrl'] = $export_data['fullBackupUrl'];
+				}
+				wp_localize_script( 'infocus-erp-workflow', 'infocusErpWorkflow', $workflow_data );
 			}
 		}
 	}

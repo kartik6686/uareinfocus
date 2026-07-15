@@ -268,7 +268,7 @@ class Infocus_ERP_MCP_Server {
 						'entity' => array( 'type' => 'string', 'enum' => $entity_enum ),
 						'fields' => array(
 							'type'        => 'object',
-							'description' => 'Key/value pairs for the new record, e.g. {"name": "Golden Hour", "category": "Maternity", "price": 24000, "included_edits": 20, "is_popular": "Yes", "description": "3 dress changes, 3 hr session, 5 setups..."}.',
+							'description' => 'Key/value pairs for the new record, e.g. {"name": "Golden Hour", "category": "Maternity", "price": 24000, "included_edits": 20, "is_popular": true, "description": "3 dress changes, 3 hr session, 5 setups..."}.',
 						),
 					),
 					'required'   => array( 'entity', 'fields' ),

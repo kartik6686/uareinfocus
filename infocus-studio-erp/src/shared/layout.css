@@ -140,6 +140,7 @@
 	align-items: center;
 	gap: 7px;
 	box-shadow: var(--shadow);
+	text-decoration: none;
 }
 #infocus-erp-app .btn:hover {
 	border-color: var(--muted);
@@ -254,6 +255,11 @@
 }
 #infocus-erp-app .card-body {
 	padding: 16px 18px 18px;
+}
+#infocus-erp-app .export-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 #infocus-erp-app .cal-nav {
@@ -646,6 +652,19 @@
 #infocus-erp-app .field textarea:focus {
 	outline: 2px solid var(--accent-fill);
 	outline-offset: 1px;
+}
+#infocus-erp-app .field input.field-checkbox {
+	width: 18px;
+	height: 18px;
+	accent-color: var(--accent-fill);
+	cursor: pointer;
+}
+#infocus-erp-app .bool-star {
+	color: var(--warning);
+	font-size: 15px;
+}
+#infocus-erp-app .bool-dash {
+	color: var(--muted);
 }
 #infocus-erp-app .form-actions {
 	display: flex;

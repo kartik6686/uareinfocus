@@ -217,6 +217,14 @@ export default function EntityList( { config, adminUrl } ) {
 												</td>
 											);
 										}
+										if ( def && def.type === 'boolean' ) {
+											const isTrue = !! value && value !== '0';
+											return (
+												<td key={ col }>
+													{ isTrue ? <span className="bool-star" title="Yes">★</span> : <span className="bool-dash">—</span> }
+												</td>
+											);
+										}
 										return <td key={ col }>{ value || '—' }</td>;
 									} ) }
 									{ entity === 'pipeline' &&

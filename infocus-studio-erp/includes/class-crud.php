@@ -58,6 +58,7 @@ class Infocus_ERP_CRUD {
 		$table = self::table( $name );
 		if ( ! $table ) return 0;
 		$data['created_at'] = current_time( 'mysql' );
+		$data['updated_at'] = $data['created_at'];
 		$data = self::normalize_empty_to_null( $data );
 		$wpdb->insert( $table, $data );
 		return $wpdb->insert_id;
@@ -67,6 +68,7 @@ class Infocus_ERP_CRUD {
 		global $wpdb;
 		$table = self::table( $name );
 		if ( ! $table ) return false;
+		$data['updated_at'] = current_time( 'mysql' );
 		$data = self::normalize_empty_to_null( $data );
 		return $wpdb->update( $table, $data, array( 'id' => $id ) );
 	}

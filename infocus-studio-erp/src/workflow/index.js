@@ -3,6 +3,7 @@ import InquiriesScreen from './InquiriesScreen';
 import RequirementsScreen from './RequirementsScreen';
 import ImageSelectionsScreen from './ImageSelectionsScreen';
 import InvoicesScreen from './InvoicesScreen';
+import ExportScreen from './ExportScreen';
 import '../shared/tokens.css';
 import '../shared/layout.css';
 
@@ -11,6 +12,7 @@ const SCREENS = {
 	requirements: RequirementsScreen,
 	'image-selections': ImageSelectionsScreen,
 	invoices: InvoicesScreen,
+	export: ExportScreen,
 };
 
 document.addEventListener( 'DOMContentLoaded', function () {
@@ -22,5 +24,12 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 	const config = window.infocusErpWorkflow || {};
 	const root = createRoot( el );
-	root.render( <Screen adminUrl={ config.adminUrl || '/wp-admin/' } userName={ config.userName || 'Admin' } /> );
+	root.render(
+		<Screen
+			adminUrl={ config.adminUrl || '/wp-admin/' }
+			userName={ config.userName || 'Admin' }
+			sections={ config.exportSections }
+			fullBackupUrl={ config.exportFullBackupUrl }
+		/>
+	);
 } );

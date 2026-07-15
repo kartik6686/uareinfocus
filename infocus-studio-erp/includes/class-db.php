@@ -42,6 +42,7 @@ class Infocus_ERP_DB {
 			source VARCHAR(100) DEFAULT '',
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
@@ -58,8 +59,10 @@ class Infocus_ERP_DB {
 			status VARCHAR(50) DEFAULT 'Inquiry',
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY customer_id (customer_id),
+			KEY package_id (package_id),
 			KEY session_date (session_date),
 			KEY status (status)
 		) $charset_collate;";
@@ -73,6 +76,7 @@ class Infocus_ERP_DB {
 			type VARCHAR(20) DEFAULT 'Advance',
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY booking_id (booking_id)
 		) $charset_collate;";
@@ -87,6 +91,7 @@ class Infocus_ERP_DB {
 			rate_amount DECIMAL(10,2) DEFAULT 0,
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
@@ -100,6 +105,7 @@ class Infocus_ERP_DB {
 			status VARCHAR(30) DEFAULT 'Not Started',
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY booking_id (booking_id),
 			KEY employee_id (employee_id),
@@ -115,6 +121,7 @@ class Infocus_ERP_DB {
 			vendor VARCHAR(191) DEFAULT '',
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY category (category),
 			KEY expense_date (expense_date)
@@ -134,6 +141,7 @@ class Infocus_ERP_DB {
 			quality_flag VARCHAR(30) DEFAULT '',
 			status VARCHAR(30) DEFAULT 'New',
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY matched_customer_id (matched_customer_id),
 			KEY status (status)
@@ -151,6 +159,7 @@ class Infocus_ERP_DB {
 			additional_notes TEXT NULL,
 			submitted_at DATETIME NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			UNIQUE KEY token (token),
 			KEY booking_id (booking_id)
@@ -167,6 +176,7 @@ class Infocus_ERP_DB {
 			lock_override VARCHAR(20) DEFAULT '',
 			submitted_at DATETIME NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			UNIQUE KEY token (token),
 			KEY booking_id (booking_id)
@@ -178,10 +188,11 @@ class Infocus_ERP_DB {
 			category VARCHAR(50) DEFAULT '',
 			price DECIMAL(10,2) DEFAULT 0,
 			included_edits INT UNSIGNED DEFAULT 0,
-			is_popular VARCHAR(5) DEFAULT 'No',
+			is_popular TINYINT(1) NOT NULL DEFAULT 0,
 			description TEXT NULL,
 			brochure_url VARCHAR(500) DEFAULT '',
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY category (category)
 		) $charset_collate;";
@@ -199,11 +210,14 @@ class Infocus_ERP_DB {
 			balance_due DECIMAL(10,2) DEFAULT 0,
 			notes TEXT NULL,
 			created_at DATETIME NOT NULL,
+			updated_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			UNIQUE KEY token (token),
 			KEY customer_id (customer_id),
 			KEY booking_id (booking_id)
 		) $charset_collate;";
+
+		self::migrate_is_popular_to_boolean( $t['packages'] );
 
 		foreach ( $sql as $statement ) {
 			dbDelta( $statement );
@@ -226,5 +240,28 @@ class Infocus_ERP_DB {
 		}
 
 		update_option( 'infocus_erp_db_version', INFOCUS_ERP_VERSION );
+	}
+
+	/**
+	 * packages.is_popular started life as VARCHAR(5) 'Yes'/'No'. dbDelta never
+	 * alters an existing column's type, so on upgrade this converts it to a
+	 * real TINYINT(1) in place, preserving existing data. Safe to run on every
+	 * install/upgrade — it's a no-op once the column is already an integer type.
+	 */
+	private static function migrate_is_popular_to_boolean( $packages_table ) {
+		global $wpdb;
+
+		$table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $packages_table ) );
+		if ( ! $table_exists ) {
+			return;
+		}
+
+		$column = $wpdb->get_row( $wpdb->prepare( 'SHOW COLUMNS FROM ' . $packages_table . ' LIKE %s', 'is_popular' ) );
+		if ( ! $column || stripos( $column->Type, 'varchar' ) === false ) {
+			return;
+		}
+
+		$wpdb->query( "UPDATE {$packages_table} SET is_popular = IF( LOWER( TRIM( is_popular ) ) = 'yes', '1', '0' )" );
+		$wpdb->query( "ALTER TABLE {$packages_table} MODIFY is_popular TINYINT(1) NOT NULL DEFAULT 0" );
 	}
 }

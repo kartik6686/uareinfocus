@@ -331,7 +331,7 @@ class Infocus_ERP_REST_API {
 			return new WP_Error( 'bad_request', 'A positive "amount" is required.', array( 'status' => 400 ) );
 		}
 
-		$known_categories = array( 'Gear', 'Props', 'Studio Rent', 'Editor Payout', 'Marketing/Ads', 'Travel', 'Software/Subscriptions', 'Other' );
+		$known_categories = Infocus_ERP_Admin_Pages::entities()['expenses']['fields']['category']['options'];
 		$category         = isset( $body['category'] ) ? sanitize_text_field( $body['category'] ) : '';
 
 		if ( ! in_array( $category, $known_categories, true ) ) {
@@ -487,7 +487,7 @@ class Infocus_ERP_REST_API {
 		}
 		$customer = $customer_result;
 
-		$known_services = array( 'Maternity', 'Newborn', 'Kids', 'Family', 'Commercial', 'Corporate & Events', 'Other' );
+		$known_services = Infocus_ERP_Admin_Pages::entities()['bookings']['fields']['service_type']['options'];
 		$service_type   = isset( $body['service_type'] ) ? sanitize_text_field( $body['service_type'] ) : '';
 		if ( ! in_array( $service_type, $known_services, true ) ) {
 			$service_type = self::guess_service_type( $service_type );

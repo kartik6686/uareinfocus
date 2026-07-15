@@ -71,6 +71,8 @@ export default function EntityForm( { config, editId, prefill, adminUrl } ) {
 			const raw = values[ field ];
 			if ( def.type === 'number' || def.type === 'ref' ) {
 				payload[ field ] = raw === '' || raw === null ? '' : Number( raw );
+			} else if ( def.type === 'boolean' ) {
+				payload[ field ] = raw ? 1 : 0;
 			} else {
 				payload[ field ] = raw ?? '';
 			}
@@ -137,6 +139,16 @@ export default function EntityForm( { config, editId, prefill, adminUrl } ) {
 								step={ def.type === 'number' ? '0.01' : undefined }
 								value={ values[ field ] ?? '' }
 								onChange={ ( e ) => setField( field, e.target.value ) }
+							/>
+						) }
+
+						{ def.type === 'boolean' && (
+							<input
+								id={ `f-${ field }` }
+								type="checkbox"
+								className="field-checkbox"
+								checked={ !! ( values[ field ] && values[ field ] !== '0' ) }
+								onChange={ ( e ) => setField( field, e.target.checked ) }
 							/>
 						) }
 					</div>
