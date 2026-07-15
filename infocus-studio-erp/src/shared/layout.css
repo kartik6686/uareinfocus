@@ -1,0 +1,457 @@
+#infocus-erp-app .app {
+	display: grid;
+	grid-template-columns: 248px 1fr;
+	min-height: 600px;
+	background: var(--paper);
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: var(--shadow);
+}
+
+#infocus-erp-app .rail {
+	background: var(--rail-bg);
+	color: #e8e7f5;
+	padding: 22px 16px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+#infocus-erp-app .brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 10px 20px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	margin-bottom: 14px;
+}
+#infocus-erp-app .brand-mark {
+	width: 34px;
+	height: 34px;
+	border-radius: 9px;
+	background: linear-gradient(155deg, var(--accent-fill), #9c7a1f);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #241b02;
+	flex-shrink: 0;
+}
+#infocus-erp-app .brand-name {
+	font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+	font-size: 16.5px;
+	line-height: 1.15;
+	color: #fff;
+}
+#infocus-erp-app .brand-sub {
+	font-size: 10.5px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #a9aac9;
+	margin-top: 2px;
+}
+#infocus-erp-app .nav-label {
+	font-size: 10.5px;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: #7c7fa3;
+	padding: 14px 10px 6px;
+}
+#infocus-erp-app .nav-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	font-size: 13.5px;
+	color: #c6c6e0;
+	text-decoration: none;
+	border-left: 3px solid transparent;
+}
+#infocus-erp-app .nav-item:hover {
+	background: rgba(255, 255, 255, 0.06);
+	color: #fff;
+}
+#infocus-erp-app .nav-item.active {
+	background: rgba(212, 175, 55, 0.14);
+	color: #fff;
+	border-left-color: var(--accent-fill);
+	font-weight: 600;
+}
+#infocus-erp-app .rail-foot {
+	margin-top: auto;
+	padding: 14px 10px 4px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 12.5px;
+	color: #a9aac9;
+}
+#infocus-erp-app .avatar {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: var(--accent-fill);
+	color: #241b02;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11.5px;
+	font-weight: 700;
+	flex-shrink: 0;
+}
+
+#infocus-erp-app .main {
+	padding: 30px 36px 44px;
+}
+
+#infocus-erp-app .topbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 20px;
+	margin-bottom: 26px;
+	flex-wrap: wrap;
+}
+#infocus-erp-app .topbar h1 {
+	font-size: 27px;
+	color: var(--ink);
+	font-weight: 600;
+	margin: 0;
+}
+#infocus-erp-app .topbar .date {
+	color: var(--muted);
+	font-size: 13px;
+	margin-top: 4px;
+}
+#infocus-erp-app .actions {
+	display: flex;
+	gap: 10px;
+}
+#infocus-erp-app .btn {
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--ink-2);
+	padding: 9px 16px;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	box-shadow: var(--shadow);
+}
+#infocus-erp-app .btn:hover {
+	border-color: var(--muted);
+}
+#infocus-erp-app .btn.accent {
+	background: var(--accent-fill);
+	border-color: var(--accent-fill);
+	color: var(--accent-ink);
+}
+#infocus-erp-app .btn:focus-visible,
+#infocus-erp-app .nav-item:focus-visible,
+#infocus-erp-app .icon-btn:focus-visible {
+	outline: 2px solid var(--accent-fill);
+	outline-offset: 2px;
+}
+
+#infocus-erp-app .kpi-row {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 14px;
+	margin-bottom: 22px;
+}
+#infocus-erp-app .kpi {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 16px 18px 15px;
+	box-shadow: var(--shadow);
+	position: relative;
+	overflow: hidden;
+}
+#infocus-erp-app .kpi::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: var(--stripe, var(--accent-fill));
+}
+#infocus-erp-app .kpi-label {
+	font-size: 11px;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--muted);
+	font-weight: 600;
+}
+#infocus-erp-app .kpi-value {
+	font-size: 26px;
+	font-weight: 700;
+	color: var(--ink);
+	margin-top: 8px;
+}
+#infocus-erp-app .kpi-delta {
+	font-size: 12px;
+	margin-top: 6px;
+	color: var(--muted);
+}
+#infocus-erp-app .kpi-delta.good {
+	color: var(--success);
+}
+#infocus-erp-app .kpi-delta.bad {
+	color: var(--danger);
+}
+
+#infocus-erp-app .grid-2 {
+	display: grid;
+	grid-template-columns: 1.55fr 1fr;
+	gap: 16px;
+	align-items: start;
+}
+
+#infocus-erp-app .card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	overflow: hidden;
+}
+#infocus-erp-app .card-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 18px 13px;
+	border-bottom: 1px solid var(--border);
+}
+#infocus-erp-app .card-head h2 {
+	font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+	font-size: 16.5px;
+	color: var(--ink);
+	font-weight: 600;
+	margin: 0;
+}
+#infocus-erp-app .card-head .link {
+	font-size: 12px;
+	color: var(--accent);
+	font-weight: 600;
+	text-decoration: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+#infocus-erp-app .card-body {
+	padding: 16px 18px 18px;
+}
+
+#infocus-erp-app .cal-nav {
+	display: flex;
+	gap: 6px;
+}
+#infocus-erp-app .icon-btn {
+	width: 26px;
+	height: 26px;
+	border-radius: 7px;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--muted);
+}
+#infocus-erp-app .icon-btn:hover {
+	background: var(--surface-2);
+}
+#infocus-erp-app .cal-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 3px;
+	text-align: center;
+}
+#infocus-erp-app .cal-dow {
+	font-size: 10.5px;
+	color: var(--muted);
+	font-weight: 700;
+	padding-bottom: 6px;
+	letter-spacing: 0.03em;
+}
+#infocus-erp-app .cal-day {
+	position: relative;
+	height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	font-size: 13px;
+	color: var(--ink-2);
+}
+#infocus-erp-app .cal-day.blank {
+	visibility: hidden;
+}
+#infocus-erp-app .cal-day.has-booking::after {
+	content: "";
+	position: absolute;
+	bottom: 6px;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: var(--progress);
+}
+#infocus-erp-app .cal-day.today {
+	background: var(--accent-fill);
+	color: var(--accent-ink);
+	font-weight: 700;
+}
+#infocus-erp-app .cal-legend {
+	display: flex;
+	gap: 16px;
+	margin-top: 12px;
+	font-size: 11.5px;
+	color: var(--muted);
+}
+#infocus-erp-app .cal-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+#infocus-erp-app .dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+#infocus-erp-app .stack {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+#infocus-erp-app .attn-item {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--border);
+	font-size: 13px;
+}
+#infocus-erp-app .attn-item:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+#infocus-erp-app .attn-name {
+	font-weight: 600;
+	color: var(--ink-2);
+}
+#infocus-erp-app .attn-sub {
+	color: var(--muted);
+	font-size: 11.5px;
+	margin-top: 2px;
+}
+#infocus-erp-app .attn-amt {
+	font-weight: 700;
+	color: var(--ink);
+	white-space: nowrap;
+}
+#infocus-erp-app .empty-note {
+	color: var(--muted);
+	font-size: 13px;
+	padding: 6px 0;
+}
+
+#infocus-erp-app .pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 9px;
+	border-radius: 999px;
+	font-size: 11.5px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+#infocus-erp-app .pill .dot {
+	width: 6px;
+	height: 6px;
+}
+#infocus-erp-app .pill.tone-success {
+	background: var(--success-bg);
+	color: var(--success);
+}
+#infocus-erp-app .pill.tone-warning {
+	background: var(--warning-bg);
+	color: var(--warning);
+}
+#infocus-erp-app .pill.tone-danger {
+	background: var(--danger-bg);
+	color: var(--danger);
+}
+#infocus-erp-app .pill.tone-progress {
+	background: var(--progress-bg);
+	color: var(--progress);
+}
+
+#infocus-erp-app .rows {
+	display: flex;
+	flex-direction: column;
+}
+#infocus-erp-app .row-item {
+	display: grid;
+	grid-template-columns: 34px 1.4fr 1fr 0.9fr;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--border);
+	font-size: 13px;
+}
+#infocus-erp-app .row-item:last-child {
+	border-bottom: none;
+}
+#infocus-erp-app .row-init {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: var(--surface-3);
+	color: var(--ink);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 700;
+	flex-shrink: 0;
+}
+#infocus-erp-app .row-name {
+	font-weight: 600;
+	color: var(--ink-2);
+}
+#infocus-erp-app .row-date {
+	color: var(--muted);
+}
+
+#infocus-erp-app .loading,
+#infocus-erp-app .error-note {
+	padding: 40px 20px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 13px;
+}
+#infocus-erp-app .error-note {
+	color: var(--danger);
+}
+
+@media (max-width: 980px) {
+	#infocus-erp-app .app {
+		grid-template-columns: 1fr;
+	}
+	#infocus-erp-app .rail {
+		display: none;
+	}
+	#infocus-erp-app .kpi-row {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	#infocus-erp-app .grid-2 {
+		grid-template-columns: 1fr;
+	}
+}

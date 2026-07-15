@@ -62,5 +62,20 @@ add_action(
 		}
 		wp_enqueue_style( 'infocus-erp-admin', INFOCUS_ERP_URL . 'assets/css/admin.css', array(), INFOCUS_ERP_VERSION );
 		wp_enqueue_script( 'infocus-erp-admin', INFOCUS_ERP_URL . 'assets/js/admin.js', array(), INFOCUS_ERP_VERSION, true );
+
+		// The React-rendered dashboard (Phase 1 of the redesign). Other screens
+		// are still the classic PHP-rendered pages and don't load this bundle.
+		if ( 'toplevel_page_infocus-erp' === $hook ) {
+			$asset_file = INFOCUS_ERP_PATH . 'build/dashboard.asset.php';
+			if ( file_exists( $asset_file ) ) {
+				$asset = require $asset_file;
+				wp_enqueue_script( 'infocus-erp-dashboard', INFOCUS_ERP_URL . 'build/dashboard.js', $asset['dependencies'], $asset['version'], true );
+				wp_enqueue_style( 'infocus-erp-dashboard', INFOCUS_ERP_URL . 'build/dashboard.css', array(), $asset['version'] );
+				wp_localize_script( 'infocus-erp-dashboard', 'infocusErpAdmin', array(
+					'adminUrl'        => admin_url( '/' ),
+					'currentUserName' => wp_get_current_user()->display_name,
+				) );
+			}
+		}
 	}
 );

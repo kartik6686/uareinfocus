@@ -77,4 +77,18 @@ class Infocus_ERP_Security {
 		}
 		return hash_equals( $configured, $provided );
 	}
+
+	/**
+	 * Permission callback for routes the admin's own in-browser app calls.
+	 * Accepts either a logged-in admin session (WP core already verifies the
+	 * X-WP-Nonce header on cookie-authenticated requests before this runs) or
+	 * the external API key, so the same routes keep working for REST/MCP
+	 * integrations without embedding the shared API key in browser JS.
+	 */
+	public static function check_admin_or_api_key( WP_REST_Request $request ) {
+		if ( self::current_user_allowed() ) {
+			return true;
+		}
+		return self::check_api_key( $request );
+	}
 }

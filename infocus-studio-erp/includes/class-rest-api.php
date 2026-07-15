@@ -22,7 +22,7 @@ class Infocus_ERP_REST_API {
 
 		register_rest_route( self::NS, '/summary', array(
 			'methods'             => 'GET',
-			'permission_callback' => $perm,
+			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
 			'callback'            => function ( $request ) {
 				return self::wrap( self::do_summary( array( 'from' => $request->get_param( 'from' ), 'to' => $request->get_param( 'to' ) ) ) );
 			},
@@ -78,9 +78,23 @@ class Infocus_ERP_REST_API {
 
 		register_rest_route( self::NS, '/inquiries', array(
 			'methods'             => 'GET',
-			'permission_callback' => $perm,
+			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
 			'callback'            => function ( $request ) {
-				return self::wrap( self::do_list( 'inquiries', array() ) );
+				$where = array();
+				if ( $request->get_param( 'status' ) ) {
+					$where['status'] = sanitize_text_field( $request->get_param( 'status' ) );
+				}
+				return self::wrap( self::do_list( 'inquiries', $where ) );
+			},
+		) );
+
+		register_rest_route( self::NS, '/calendar-month', array(
+			'methods'             => 'GET',
+			'permission_callback' => array( 'Infocus_ERP_Security', 'check_admin_or_api_key' ),
+			'callback'            => function ( $request ) {
+				$year  = (int) ( $request->get_param( 'year' ) ?: gmdate( 'Y' ) );
+				$month = (int) ( $request->get_param( 'month' ) ?: gmdate( 'n' ) );
+				return self::wrap( Infocus_ERP_Reports::bookings_for_month( $year, $month ) );
 			},
 		) );
 
