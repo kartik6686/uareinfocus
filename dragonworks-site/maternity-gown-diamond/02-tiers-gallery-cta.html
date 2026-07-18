@@ -1,0 +1,142 @@
+<!-- ============================
+SECTION CONTROLS — Wardrobe Tiers + Gallery Link (Maternity Gown Collection)
+
+IMAGES:
+  none
+
+GALLERY LINK (EDITABLE FIELD):
+  The "View the Full Collection" button below links to /maternitygallery — update
+  the href if the gallery page URL changes.
+
+FONT SIZES:
+  --gown-tiers-eyebrow-size: 15px
+  --gown-tiers-heading-size: 32px
+  --gown-tiers-sub-size: 17px
+  --gown-tiers-card-title-size: 19px
+  --gown-tiers-card-body-size: 15px
+============================ -->
+<section class="dw-gown-tiers">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-gown-tiers {
+      --gown-tiers-eyebrow-size: 15px;
+      --gown-tiers-heading-size: 32px;
+      --gown-tiers-sub-size: 17px;
+      --gown-tiers-card-title-size: 19px;
+      --gown-tiers-card-body-size: 15px;
+      background:#FFFFFF;
+      padding:80px 24px;
+    }
+    .dw-gown-tiers .dw-gown-tiers-inner {
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .dw-gown-tiers .dw-gown-tiers-head {
+      text-align:center;
+      max-width:640px;
+      margin:0 auto 48px;
+    }
+    .dw-gown-tiers .dw-gown-tiers-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-tiers-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 14px;
+    }
+    .dw-gown-tiers h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--gown-tiers-heading-size);
+      color:#211E17;
+      margin:0 0 16px;
+    }
+    .dw-gown-tiers .dw-gown-tiers-sub {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-tiers-sub-size);
+      color:#5C5648;
+      line-height:1.6;
+      margin:0;
+    }
+    .dw-gown-tiers .dw-gown-tiers-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+      margin-bottom:48px;
+    }
+    .dw-gown-tiers .dw-tier-card {
+      background:#F6F2E9;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:28px;
+      text-align:center;
+    }
+    .dw-gown-tiers .dw-tier-card h3 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--gown-tiers-card-title-size);
+      color:#1F4D3B;
+      margin:0 0 10px;
+    }
+    .dw-gown-tiers .dw-tier-card p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-tiers-card-body-size);
+      color:#5C5648;
+      line-height:1.55;
+      margin:0;
+    }
+    .dw-gown-tiers .dw-gallery-cta {
+      text-align:center;
+    }
+    .dw-gown-tiers .dw-btn-outline {
+      font-family:'Karla',sans-serif;
+      font-size:16px;
+      font-weight:700;
+      color:#211E17;
+      background:transparent;
+      border:1px solid #211E17;
+      text-decoration:none;
+      padding:14px 28px;
+      border-radius:999px;
+      display:inline-block;
+      transition:all 0.2s ease;
+    }
+    .dw-gown-tiers .dw-btn-outline:hover {
+      background:#211E17;
+      color:#FFFFFF;
+    }
+
+    @media (max-width: 800px) {
+      .dw-gown-tiers .dw-gown-tiers-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-gown-tiers-inner">
+    <div class="dw-gown-tiers-head">
+      <p class="dw-gown-tiers-eyebrow">Wardrobe access</p>
+      <h2>Every package unlocks a different level of the collection.</h2>
+      <p class="dw-gown-tiers-sub">Each gown in the collection is tagged by the package tier it's included with — some are complimentary, others carry a small rental fee.</p>
+    </div>
+    <div class="dw-gown-tiers-grid">
+      <div class="dw-tier-card">
+        <h3>Gold</h3>
+        <p>Access to the full collection, with a small rental fee per dress (typically ₹500–₹1500).</p>
+      </div>
+      <div class="dw-tier-card">
+        <h3>Diamond</h3>
+        <p>Most gowns in the collection included at no extra charge.</p>
+      </div>
+      <div class="dw-tier-card">
+        <h3>Platinum</h3>
+        <p>Full collection included at no extra charge.</p>
+      </div>
+    </div>
+    <div class="dw-gallery-cta">
+      <a class="dw-btn-outline" href="/maternitygallery">View the Full Collection →</a>
+    </div>
+  </div>
+</section>
