@@ -1,0 +1,180 @@
+<!-- ============================
+SECTION CONTROLS — What's Included / Packages (Newborn)
+
+IMAGES:
+  none — pricing cards only
+
+PRICING (EDITABLE FIELDS — Kartik to fill in final ₹ amounts and exact numbers):
+  Tier 1 "Essential" → price: ₹[ADD PRICE], edited images: [ADD], session length: [ADD]
+  Tier 2 "Signature" → price: ₹[ADD PRICE], edited images: [ADD], session length: [ADD]
+  Tier 3 "Premium"   → price: ₹[ADD PRICE], edited images: [ADD], session length: [ADD]
+
+FONT SIZES:
+  --nb-pkg-eyebrow-size: 15px
+  --nb-pkg-heading-size: 34px
+  --nb-pkg-sub-size: 17px
+  --nb-pkg-tier-name-size: 20px
+  --nb-pkg-tier-price-size: 30px
+  --nb-pkg-tier-item-size: 15px
+============================ -->
+<section class="dw-nb-pkg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-nb-pkg {
+      --nb-pkg-eyebrow-size: 15px;
+      --nb-pkg-heading-size: 34px;
+      --nb-pkg-sub-size: 17px;
+      --nb-pkg-tier-name-size: 20px;
+      --nb-pkg-tier-price-size: 30px;
+      --nb-pkg-tier-item-size: 15px;
+      background:#F6F2E9;
+      padding:80px 24px;
+    }
+    .dw-nb-pkg .dw-nb-pkg-inner {
+      max-width:1160px;
+      margin:0 auto;
+    }
+    .dw-nb-pkg .dw-nb-pkg-head {
+      text-align:center;
+      max-width:640px;
+      margin:0 auto 48px;
+    }
+    .dw-nb-pkg .dw-nb-pkg-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--nb-pkg-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 14px;
+    }
+    .dw-nb-pkg h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--nb-pkg-heading-size);
+      color:#211E17;
+      margin:0 0 16px;
+    }
+    .dw-nb-pkg .dw-nb-pkg-sub {
+      font-family:'Karla',sans-serif;
+      font-size: var(--nb-pkg-sub-size);
+      color:#5C5648;
+      line-height:1.6;
+      margin:0;
+    }
+    .dw-nb-pkg .dw-nb-pkg-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+    }
+    .dw-nb-pkg .dw-tier {
+      background:#FFFFFF;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:32px 28px;
+      display:flex;
+      flex-direction:column;
+    }
+    .dw-nb-pkg .dw-tier-name {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--nb-pkg-tier-name-size);
+      color:#211E17;
+      margin:0 0 8px;
+    }
+    .dw-nb-pkg .dw-tier-price {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--nb-pkg-tier-price-size);
+      color:#1F4D3B;
+      margin:0 0 20px;
+    }
+    .dw-nb-pkg .dw-tier-list {
+      list-style:none;
+      margin:0 0 28px;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex-grow:1;
+    }
+    .dw-nb-pkg .dw-tier-list li {
+      font-family:'Karla',sans-serif;
+      font-size: var(--nb-pkg-tier-item-size);
+      color:#5C5648;
+      padding-left:22px;
+      position:relative;
+    }
+    .dw-nb-pkg .dw-tier-list li::before {
+      content:"✓";
+      position:absolute;
+      left:0;
+      color:#1F4D3B;
+      font-weight:700;
+    }
+    .dw-nb-pkg .dw-tier-btn {
+      font-family:'Karla',sans-serif;
+      font-size:15px;
+      font-weight:700;
+      text-align:center;
+      text-decoration:none;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      padding:12px 20px;
+      border-radius:999px;
+    }
+    .dw-nb-pkg .dw-tier-btn:hover {
+      background:#163A2C;
+    }
+
+    @media (max-width: 900px) {
+      .dw-nb-pkg .dw-nb-pkg-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-nb-pkg-inner">
+    <div class="dw-nb-pkg-head">
+      <p class="dw-nb-pkg-eyebrow">Packages</p>
+      <h2>What's included</h2>
+      <p class="dw-nb-pkg-sub">Every package includes parent portraits, sibling portraits, wrapped baby portraits and prop-based photography.</p>
+    </div>
+    <div class="dw-nb-pkg-grid">
+      <div class="dw-tier">
+        <h3 class="dw-tier-name">Essential</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]</p>
+        <ul class="dw-tier-list">
+          <li>[ADD] professionally edited images</li>
+          <li>Wrapped baby portraits</li>
+          <li>Parent portraits</li>
+          <li>[ADD] minute session</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Essential</a>
+      </div>
+      <div class="dw-tier">
+        <h3 class="dw-tier-name">Signature</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]</p>
+        <ul class="dw-tier-list">
+          <li>[ADD] professionally edited images</li>
+          <li>Wrapped baby &amp; prop-based portraits</li>
+          <li>Parent and sibling portraits</li>
+          <li>[ADD] minute session</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Signature</a>
+      </div>
+      <div class="dw-tier">
+        <h3 class="dw-tier-name">Premium</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]</p>
+        <ul class="dw-tier-list">
+          <li>[ADD] professionally edited images</li>
+          <li>Full prop &amp; wrap variety</li>
+          <li>Parent and sibling portraits, whole family welcome</li>
+          <li>[ADD] minute session</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Premium</a>
+      </div>
+    </div>
+  </div>
+</section>

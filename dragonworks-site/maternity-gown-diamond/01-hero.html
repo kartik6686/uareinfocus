@@ -1,0 +1,103 @@
+<!-- ============================
+SECTION CONTROLS — Hero (Maternity Gown Collection)
+
+IMAGES:
+  1. gown-hero-main → large portrait photo of a maternity gown/dress on a model, ratio 4:5
+
+FONT SIZES:
+  --gown-hero-eyebrow-size: 15px
+  --gown-hero-heading-size: 42px
+  --gown-hero-body-size: 18px
+  --gown-hero-button-size: 16px
+============================ -->
+<section class="dw-gown-hero">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-gown-hero {
+      --gown-hero-eyebrow-size: 15px;
+      --gown-hero-heading-size: 42px;
+      --gown-hero-body-size: 18px;
+      --gown-hero-button-size: 16px;
+      background:#F6F2E9;
+      padding:72px 24px 56px;
+    }
+    .dw-gown-hero .dw-gown-hero-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:56px;
+      align-items:center;
+    }
+    .dw-gown-hero .dw-gown-hero-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-hero-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 16px;
+    }
+    .dw-gown-hero h1 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--gown-hero-heading-size);
+      line-height:1.15;
+      color:#211E17;
+      margin:0 0 20px;
+    }
+    .dw-gown-hero p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-hero-body-size);
+      line-height:1.6;
+      color:#5C5648;
+      margin:0 0 20px;
+      max-width:520px;
+    }
+    .dw-gown-hero .dw-btn-primary {
+      font-family:'Karla',sans-serif;
+      font-size: var(--gown-hero-button-size);
+      font-weight:700;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      text-decoration:none;
+      padding:14px 28px;
+      border-radius:999px;
+      display:inline-block;
+      transition:background 0.2s ease;
+    }
+    .dw-gown-hero .dw-btn-primary:hover {
+      background:#163A2C;
+    }
+    .dw-gown-hero .dw-gown-hero-media img {
+      width:100%;
+      aspect-ratio:4/5;
+      object-fit:cover;
+      border-radius:16px;
+      display:block;
+    }
+
+    @media (max-width: 900px) {
+      .dw-gown-hero .dw-gown-hero-inner {
+        grid-template-columns:1fr;
+        gap:36px;
+      }
+      .dw-gown-hero h1 {
+        font-size: calc(var(--gown-hero-heading-size) * 0.72);
+      }
+    }
+  </style>
+
+  <div class="dw-gown-hero-inner">
+    <div class="dw-gown-hero-copy">
+      <p class="dw-gown-hero-eyebrow">Maternity Dress Collection</p>
+      <h1>Unveiling the epitome of maternity luxury.</h1>
+      <p>For those looking for something truly extraordinary, we proudly present our Luxury Dress Collection — stunning ruffle gowns and other exquisite pieces. Choosing a dress from the Diamond Collection adds a touch of luxury to your photoshoot, with an experience that shines just as brightly.</p>
+      <a class="dw-btn-primary" href="https://wa.me/919178457983">Book Now on WhatsApp</a>
+    </div>
+    <div class="dw-gown-hero-media">
+      <img src="PASTE_IMAGE_LINK_HERE" data-slot="gown-hero-main" alt="Maternity gown from the Dragonworks luxury dress collection">
+    </div>
+  </div>
+</section>

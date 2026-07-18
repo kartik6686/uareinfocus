@@ -1,0 +1,79 @@
+<!-- ============================
+SECTION CONTROLS — Testimonial (Home)
+
+IMAGES:
+  1. testimonial-avatar (optional) → small circular client photo, can be left blank
+
+NOTE: This is a placeholder review. Swap for a real client review before launch.
+
+FONT SIZES:
+  --testimonial-quote-size: 24px
+  --testimonial-attribution-size: 15px
+============================ -->
+<section class="dw-testimonial">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-testimonial {
+      --testimonial-quote-size: 24px;
+      --testimonial-attribution-size: 15px;
+      background:#FFFFFF;
+      padding:80px 24px;
+    }
+    .dw-testimonial .dw-testimonial-inner {
+      max-width:760px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-testimonial .dw-quote-mark {
+      font-family:'Fraunces',serif;
+      font-size:56px;
+      color:#1F4D3B;
+      line-height:1;
+      margin:0 0 8px;
+    }
+    .dw-testimonial blockquote {
+      font-family:'Fraunces',serif;
+      font-weight:600;
+      font-style:italic;
+      font-size: var(--testimonial-quote-size);
+      line-height:1.5;
+      color:#211E17;
+      margin:0 0 24px;
+    }
+    .dw-testimonial .dw-testimonial-attribution {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+    }
+    .dw-testimonial .dw-testimonial-attribution img {
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .dw-testimonial .dw-testimonial-attribution span {
+      font-family:'Karla',sans-serif;
+      font-size: var(--testimonial-attribution-size);
+      color:#5C5648;
+      font-weight:500;
+    }
+
+    @media (max-width: 600px) {
+      .dw-testimonial blockquote {
+        font-size: calc(var(--testimonial-quote-size) * 0.85);
+      }
+    }
+  </style>
+
+  <div class="dw-testimonial-inner">
+    <p class="dw-quote-mark">"</p>
+    <blockquote>They made my 8-months-pregnant, very tired self feel completely at ease. The photos looked like they cost triple what we paid.</blockquote>
+    <div class="dw-testimonial-attribution">
+      <!-- Optional avatar; delete <img> tag entirely to omit -->
+      <!-- <img src="PASTE_IMAGE_LINK_HERE" data-slot="testimonial-avatar" alt=""> -->
+      <span>— placeholder review, Kondapur</span>
+    </div>
+  </div>
+</section>

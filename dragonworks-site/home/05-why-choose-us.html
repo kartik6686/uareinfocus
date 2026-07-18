@@ -1,0 +1,144 @@
+<!-- ============================
+SECTION CONTROLS — Why Choose Us (Home)
+
+IMAGES:
+  none — icon/text grid only (uses simple inline SVG icons)
+
+FONT SIZES:
+  --why-eyebrow-size: 15px
+  --why-heading-size: 34px
+  --why-sub-size: 17px
+  --why-card-title-size: 18px
+  --why-card-body-size: 15px
+============================ -->
+<section class="dw-why">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-why {
+      --why-eyebrow-size: 15px;
+      --why-heading-size: 34px;
+      --why-sub-size: 17px;
+      --why-card-title-size: 18px;
+      --why-card-body-size: 15px;
+      background:#FFFFFF;
+      padding:80px 24px;
+    }
+    .dw-why .dw-why-inner {
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .dw-why .dw-why-head {
+      text-align:center;
+      max-width:680px;
+      margin:0 auto 48px;
+    }
+    .dw-why .dw-why-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--why-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 14px;
+    }
+    .dw-why h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--why-heading-size);
+      color:#211E17;
+      margin:0 0 16px;
+      line-height:1.2;
+    }
+    .dw-why .dw-why-sub {
+      font-family:'Karla',sans-serif;
+      font-size: var(--why-sub-size);
+      color:#5C5648;
+      line-height:1.6;
+      margin:0;
+    }
+    .dw-why .dw-why-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:28px;
+    }
+    .dw-why .dw-why-card {
+      background:#F6F2E9;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:28px;
+    }
+    .dw-why .dw-why-num {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size:15px;
+      color:#1F4D3B;
+      margin:0 0 12px;
+    }
+    .dw-why .dw-why-card h3 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--why-card-title-size);
+      color:#211E17;
+      margin:0 0 10px;
+    }
+    .dw-why .dw-why-card p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--why-card-body-size);
+      color:#5C5648;
+      line-height:1.55;
+      margin:0;
+    }
+
+    @media (max-width: 900px) {
+      .dw-why .dw-why-grid {
+        grid-template-columns:1fr 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .dw-why .dw-why-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-why-inner">
+    <div class="dw-why-head">
+      <p class="dw-why-eyebrow">Why families choose us</p>
+      <h2>Quality photography, without the luxury price tag.</h2>
+      <p class="dw-why-sub">We built DragonWorks so that beautiful, professional photography isn't out of reach for everyday families.</p>
+    </div>
+    <div class="dw-why-grid">
+      <div class="dw-why-card">
+        <p class="dw-why-num">01</p>
+        <h3>Honest, upfront pricing</h3>
+        <p>No hidden costs — you see the package price before you book.</p>
+      </div>
+      <div class="dw-why-card">
+        <p class="dw-why-num">02</p>
+        <h3>Comfortable studio</h3>
+        <p>Air-conditioned space, changing room, and a relaxed, family-friendly pace.</p>
+      </div>
+      <div class="dw-why-card">
+        <p class="dw-why-num">03</p>
+        <h3>Experienced team</h3>
+        <p>Every shoot is led by a trained photographer from our in-house team.</p>
+      </div>
+      <div class="dw-why-card">
+        <p class="dw-why-num">04</p>
+        <h3>Baby-safe practices</h3>
+        <p>Careful, tested posing and props for newborn and baby sessions.</p>
+      </div>
+      <div class="dw-why-card">
+        <p class="dw-why-num">05</p>
+        <h3>Fast turnaround</h3>
+        <p>Professionally edited photos delivered without a long wait.</p>
+      </div>
+      <div class="dw-why-card">
+        <p class="dw-why-num">06</p>
+        <h3>Flexible scheduling</h3>
+        <p>Weekend and evening slots for working parents.</p>
+      </div>
+    </div>
+  </div>
+</section>

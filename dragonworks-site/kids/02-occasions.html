@@ -1,0 +1,85 @@
+<!-- ============================
+SECTION CONTROLS — Occasions (Kids & Family)
+
+IMAGES:
+  none — icon/text grid only
+
+FONT SIZES:
+  --kids-occ-heading-size: 34px
+  --kids-occ-card-title-size: 19px
+  --kids-occ-card-body-size: 15px
+============================ -->
+<section class="dw-kids-occ">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-kids-occ {
+      --kids-occ-heading-size: 34px;
+      --kids-occ-card-title-size: 19px;
+      --kids-occ-card-body-size: 15px;
+      background:#FFFFFF;
+      padding:80px 24px;
+    }
+    .dw-kids-occ .dw-kids-occ-inner {
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .dw-kids-occ h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--kids-occ-heading-size);
+      color:#211E17;
+      text-align:center;
+      margin:0 0 48px;
+    }
+    .dw-kids-occ .dw-kids-occ-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+    }
+    .dw-kids-occ .dw-occ-card {
+      background:#F6F2E9;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:28px;
+    }
+    .dw-kids-occ .dw-occ-card h3 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--kids-occ-card-title-size);
+      color:#1F4D3B;
+      margin:0 0 10px;
+    }
+    .dw-kids-occ .dw-occ-card p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--kids-occ-card-body-size);
+      color:#5C5648;
+      line-height:1.55;
+      margin:0;
+    }
+
+    @media (max-width: 800px) {
+      .dw-kids-occ .dw-kids-occ-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-kids-occ-inner">
+    <h2>Every occasion, covered</h2>
+    <div class="dw-kids-occ-grid">
+      <div class="dw-occ-card">
+        <h3>Milestones</h3>
+        <p>3, 6, 9-month sittings and first-birthday cake smash</p>
+      </div>
+      <div class="dw-occ-card">
+        <h3>Everyday</h3>
+        <p>Birthday portraits, festive/traditional outfits, studio portraits</p>
+      </div>
+      <div class="dw-occ-card">
+        <h3>Family</h3>
+        <p>Timeless portraits with everyone together</p>
+      </div>
+    </div>
+  </div>
+</section>

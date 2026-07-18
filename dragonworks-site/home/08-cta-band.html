@@ -1,0 +1,64 @@
+<!-- ============================
+SECTION CONTROLS — CTA Band (Home)
+
+IMAGES:
+  none
+
+FONT SIZES:
+  --cta-heading-size: 30px
+  --cta-sub-size: 17px
+  --cta-button-size: 16px
+============================ -->
+<section class="dw-cta-band">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-cta-band {
+      --cta-heading-size: 30px;
+      --cta-sub-size: 17px;
+      --cta-button-size: 16px;
+      background:#F6F2E9;
+      padding:64px 24px;
+      border-top:1px solid #E7E0CF;
+    }
+    .dw-cta-band .dw-cta-inner {
+      max-width:720px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-cta-band h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--cta-heading-size);
+      color:#211E17;
+      margin:0 0 12px;
+    }
+    .dw-cta-band p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--cta-sub-size);
+      color:#5C5648;
+      margin:0 0 28px;
+    }
+    .dw-cta-band .dw-btn-primary {
+      font-family:'Karla',sans-serif;
+      font-size: var(--cta-button-size);
+      font-weight:700;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      text-decoration:none;
+      padding:14px 30px;
+      border-radius:999px;
+      display:inline-block;
+      transition:background 0.2s ease;
+    }
+    .dw-cta-band .dw-btn-primary:hover {
+      background:#163A2C;
+    }
+  </style>
+
+  <div class="dw-cta-inner">
+    <h2>Ready to book your session?</h2>
+    <p>Tell us your dates and we'll get back within a day.</p>
+    <a class="dw-btn-primary" href="/contact">Go to Booking Page →</a>
+  </div>
+</section>

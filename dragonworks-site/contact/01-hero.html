@@ -1,0 +1,65 @@
+<!-- ============================
+SECTION CONTROLS — Hero (Contact/Booking)
+
+IMAGES:
+  none
+
+FONT SIZES:
+  --contact-hero-eyebrow-size: 15px
+  --contact-hero-heading-size: 42px
+  --contact-hero-body-size: 18px
+============================ -->
+<section class="dw-contact-hero">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-contact-hero {
+      --contact-hero-eyebrow-size: 15px;
+      --contact-hero-heading-size: 42px;
+      --contact-hero-body-size: 18px;
+      background:#F6F2E9;
+      padding:72px 24px 48px;
+    }
+    .dw-contact-hero .dw-contact-hero-inner {
+      max-width:720px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-contact-hero .dw-contact-hero-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--contact-hero-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 16px;
+    }
+    .dw-contact-hero h1 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--contact-hero-heading-size);
+      line-height:1.15;
+      color:#211E17;
+      margin:0 0 20px;
+    }
+    .dw-contact-hero p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--contact-hero-body-size);
+      line-height:1.6;
+      color:#5C5648;
+      margin:0;
+    }
+
+    @media (max-width: 600px) {
+      .dw-contact-hero h1 {
+        font-size: calc(var(--contact-hero-heading-size) * 0.75);
+      }
+    }
+  </style>
+
+  <div class="dw-contact-hero-inner">
+    <p class="dw-contact-hero-eyebrow">Book Your Session</p>
+    <h1>Let's find your date.</h1>
+    <p>Tell us a bit about what you're looking for and we'll get back to you within a day.</p>
+  </div>
+</section>

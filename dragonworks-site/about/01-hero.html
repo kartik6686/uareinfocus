@@ -1,0 +1,77 @@
+<!-- ============================
+SECTION CONTROLS — Hero (About)
+
+IMAGES:
+  1. about-hero-main → wide studio/team photo (no individual named or emphasized), ratio 16:9 or similar
+
+FONT SIZES:
+  --about-hero-eyebrow-size: 15px
+  --about-hero-heading-size: 42px
+  --about-hero-body-size: 18px
+============================ -->
+<section class="dw-about-hero">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-about-hero {
+      --about-hero-eyebrow-size: 15px;
+      --about-hero-heading-size: 42px;
+      --about-hero-body-size: 18px;
+      background:#F6F2E9;
+      padding:72px 24px 56px;
+    }
+    .dw-about-hero .dw-about-hero-inner {
+      max-width:840px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-about-hero .dw-about-hero-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--about-hero-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 16px;
+    }
+    .dw-about-hero h1 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--about-hero-heading-size);
+      line-height:1.15;
+      color:#211E17;
+      margin:0 0 20px;
+    }
+    .dw-about-hero p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--about-hero-body-size);
+      line-height:1.6;
+      color:#5C5648;
+      margin:0 0 32px;
+    }
+    .dw-about-hero .dw-about-hero-media img {
+      width:100%;
+      max-width:840px;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      border-radius:16px;
+      display:block;
+      margin:0 auto;
+    }
+
+    @media (max-width: 600px) {
+      .dw-about-hero h1 {
+        font-size: calc(var(--about-hero-heading-size) * 0.75);
+      }
+    }
+  </style>
+
+  <div class="dw-about-hero-inner">
+    <p class="dw-about-hero-eyebrow">About DragonWorks</p>
+    <h1>A studio built around families, not egos.</h1>
+    <p>DragonWorks Photography is a Hyderabad family photography studio specializing in maternity, newborn, baby, kids, and family portraits — with honest pricing and a team that genuinely enjoys this work.</p>
+    <div class="dw-about-hero-media">
+      <img src="PASTE_IMAGE_LINK_HERE" data-slot="about-hero-main" alt="DragonWorks Photography studio team at work">
+    </div>
+  </div>
+</section>

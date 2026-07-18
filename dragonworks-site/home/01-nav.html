@@ -1,0 +1,116 @@
+<!-- ============================
+SECTION CONTROLS — Nav (Home)
+
+IMAGES:
+  1. nav-logo (optional) → small logo mark, square, can be left blank to use text logo only
+
+FONT SIZES:
+  --nav-logo-size: 24px
+  --nav-link-size: 15px
+  --nav-button-size: 15px
+============================ -->
+<section class="dw-nav">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-nav {
+      --nav-logo-size: 24px;
+      --nav-link-size: 15px;
+      --nav-button-size: 15px;
+      background:#F6F2E9;
+      border-bottom:1px solid #E7E0CF;
+      padding:16px 24px;
+    }
+    .dw-nav .dw-nav-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .dw-nav .dw-nav-logo {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--nav-logo-size);
+      color:#211E17;
+      text-decoration:none;
+      letter-spacing:0.2px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dw-nav .dw-nav-logo img {
+      width: calc(var(--nav-logo-size) + 8px);
+      height: calc(var(--nav-logo-size) + 8px);
+      border-radius:6px;
+      object-fit:cover;
+    }
+    .dw-nav .dw-nav-links {
+      display:flex;
+      align-items:center;
+      gap:28px;
+      list-style:none;
+      margin:0;
+      padding:0;
+      flex-wrap:wrap;
+    }
+    .dw-nav .dw-nav-links a {
+      font-family:'Karla',sans-serif;
+      font-size: var(--nav-link-size);
+      color:#211E17;
+      text-decoration:none;
+      font-weight:500;
+    }
+    .dw-nav .dw-nav-links a:hover {
+      color:#1F4D3B;
+    }
+    .dw-nav .dw-nav-cta {
+      font-family:'Karla',sans-serif;
+      font-size: var(--nav-button-size);
+      font-weight:700;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      padding:10px 20px;
+      border-radius:999px;
+      text-decoration:none;
+      white-space:nowrap;
+      transition:background 0.2s ease;
+    }
+    .dw-nav .dw-nav-cta:hover {
+      background:#163A2C;
+    }
+    .dw-nav .dw-nav-toggle {
+      display:none;
+    }
+
+    @media (max-width: 780px) {
+      .dw-nav .dw-nav-links {
+        width:100%;
+        justify-content:flex-start;
+        gap:18px;
+        order:3;
+      }
+      .dw-nav .dw-nav-inner {
+        justify-content:space-between;
+      }
+    }
+  </style>
+
+  <div class="dw-nav-inner">
+    <a class="dw-nav-logo" href="/">
+      <!-- Optional logo image; delete <img> tag entirely to use text-only logo -->
+      <!-- <img src="PASTE_IMAGE_LINK_HERE" data-slot="nav-logo" alt="DragonWorks Photography logo"> -->
+      DragonWorks
+    </a>
+    <ul class="dw-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/maternity">Maternity</a></li>
+      <li><a href="/newborn">Newborn</a></li>
+      <li><a href="/kids">Kids</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <a class="dw-nav-cta" href="/contact">Book a Session</a>
+  </div>
+</section>

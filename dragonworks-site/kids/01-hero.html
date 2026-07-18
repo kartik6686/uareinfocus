@@ -1,0 +1,103 @@
+<!-- ============================
+SECTION CONTROLS — Hero (Kids & Family)
+
+IMAGES:
+  1. kids-hero-main → large portrait photo, ratio 4:5, main visual
+
+FONT SIZES:
+  --kids-hero-eyebrow-size: 15px
+  --kids-hero-heading-size: 46px
+  --kids-hero-body-size: 18px
+  --kids-hero-button-size: 16px
+============================ -->
+<section class="dw-kids-hero">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-kids-hero {
+      --kids-hero-eyebrow-size: 15px;
+      --kids-hero-heading-size: 46px;
+      --kids-hero-body-size: 18px;
+      --kids-hero-button-size: 16px;
+      background:#F6F2E9;
+      padding:72px 24px 56px;
+    }
+    .dw-kids-hero .dw-kids-hero-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:56px;
+      align-items:center;
+    }
+    .dw-kids-hero .dw-kids-hero-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--kids-hero-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 16px;
+    }
+    .dw-kids-hero h1 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--kids-hero-heading-size);
+      line-height:1.15;
+      color:#211E17;
+      margin:0 0 20px;
+    }
+    .dw-kids-hero p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--kids-hero-body-size);
+      line-height:1.6;
+      color:#5C5648;
+      margin:0 0 32px;
+      max-width:520px;
+    }
+    .dw-kids-hero .dw-btn-primary {
+      font-family:'Karla',sans-serif;
+      font-size: var(--kids-hero-button-size);
+      font-weight:700;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      text-decoration:none;
+      padding:14px 28px;
+      border-radius:999px;
+      display:inline-block;
+      transition:background 0.2s ease;
+    }
+    .dw-kids-hero .dw-btn-primary:hover {
+      background:#163A2C;
+    }
+    .dw-kids-hero .dw-kids-hero-media img {
+      width:100%;
+      aspect-ratio:4/5;
+      object-fit:cover;
+      border-radius:16px;
+      display:block;
+    }
+
+    @media (max-width: 900px) {
+      .dw-kids-hero .dw-kids-hero-inner {
+        grid-template-columns:1fr;
+        gap:36px;
+      }
+      .dw-kids-hero h1 {
+        font-size: calc(var(--kids-hero-heading-size) * 0.68);
+      }
+    }
+  </style>
+
+  <div class="dw-kids-hero-inner">
+    <div class="dw-kids-hero-copy">
+      <p class="dw-kids-hero-eyebrow">Kids &amp; Family Photography</p>
+      <h1>Real smiles, not stiff poses.</h1>
+      <p>Milestone shoots, cake smash celebrations, festive portraits, and full-family sessions that actually feel like your family.</p>
+      <a class="dw-btn-primary" href="/contact">Book a Kids Session</a>
+    </div>
+    <div class="dw-kids-hero-media">
+      <img src="PASTE_IMAGE_LINK_HERE" data-slot="kids-hero-main" alt="Kids and family photography session at DragonWorks studio">
+    </div>
+  </div>
+</section>

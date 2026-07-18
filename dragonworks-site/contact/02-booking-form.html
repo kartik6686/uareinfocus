@@ -1,0 +1,177 @@
+<!-- ============================
+SECTION CONTROLS — Booking Form (Contact/Booking)
+
+IMAGES:
+  none
+
+FORM ACTION (EDITABLE FIELD — Kartik/dev to wire up):
+  The <form> below posts to "#" as a placeholder. Replace the `action` attribute
+  with your actual form handler endpoint (e.g. a WordPress/Elementor Pro form action,
+  WPForms/Fluent Forms shortcode substitution, or a custom PHP mailer endpoint).
+
+FONT SIZES:
+  --booking-heading-size: 28px
+  --booking-label-size: 14px
+  --booking-input-size: 16px
+  --booking-button-size: 16px
+============================ -->
+<section class="dw-booking-form">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-booking-form {
+      --booking-heading-size: 28px;
+      --booking-label-size: 14px;
+      --booking-input-size: 16px;
+      --booking-button-size: 16px;
+      background:#FFFFFF;
+      padding:56px 24px 80px;
+    }
+    .dw-booking-form .dw-booking-inner {
+      max-width:720px;
+      margin:0 auto;
+      background:#F6F2E9;
+      border:1px solid #E7E0CF;
+      border-radius:20px;
+      padding:40px;
+    }
+    .dw-booking-form h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--booking-heading-size);
+      color:#211E17;
+      margin:0 0 28px;
+    }
+    .dw-booking-form form {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+    .dw-booking-form .dw-field-full {
+      grid-column:1 / -1;
+    }
+    .dw-booking-form label {
+      display:block;
+      font-family:'Karla',sans-serif;
+      font-size: var(--booking-label-size);
+      font-weight:700;
+      color:#211E17;
+      margin-bottom:6px;
+    }
+    .dw-booking-form input,
+    .dw-booking-form select,
+    .dw-booking-form textarea {
+      width:100%;
+      font-family:'Karla',sans-serif;
+      font-size: var(--booking-input-size);
+      color:#211E17;
+      background:#FFFFFF;
+      border:1px solid #E7E0CF;
+      border-radius:10px;
+      padding:12px 14px;
+      box-sizing:border-box;
+    }
+    .dw-booking-form input:focus,
+    .dw-booking-form select:focus,
+    .dw-booking-form textarea:focus {
+      outline:none;
+      border-color:#1F4D3B;
+    }
+    .dw-booking-form textarea {
+      resize:vertical;
+      min-height:100px;
+    }
+    .dw-booking-form .dw-field-group-heading {
+      font-family:'Karla',sans-serif;
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#1F4D3B;
+      margin:8px 0 0;
+    }
+    .dw-booking-form button[type="submit"] {
+      grid-column:1 / -1;
+      font-family:'Karla',sans-serif;
+      font-size: var(--booking-button-size);
+      font-weight:700;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      border:none;
+      border-radius:999px;
+      padding:14px 28px;
+      cursor:pointer;
+      transition:background 0.2s ease;
+      justify-self:start;
+    }
+    .dw-booking-form button[type="submit"]:hover {
+      background:#163A2C;
+    }
+
+    @media (max-width: 640px) {
+      .dw-booking-form .dw-booking-inner {
+        padding:28px 20px;
+      }
+      .dw-booking-form form {
+        grid-template-columns:1fr;
+      }
+      .dw-booking-form button[type="submit"] {
+        width:100%;
+      }
+    }
+  </style>
+
+  <div class="dw-booking-inner">
+    <h2>Booking details</h2>
+    <form action="#" method="post">
+      <div>
+        <label for="dw-full-name">Full name</label>
+        <input type="text" id="dw-full-name" name="full_name" required>
+      </div>
+      <div>
+        <label for="dw-phone">Phone / WhatsApp number</label>
+        <input type="tel" id="dw-phone" name="phone" required>
+      </div>
+      <div>
+        <label for="dw-email">Email</label>
+        <input type="email" id="dw-email" name="email" required>
+      </div>
+      <div>
+        <label for="dw-session-type">Session type</label>
+        <select id="dw-session-type" name="session_type" required>
+          <option value="" disabled selected>Select a session type</option>
+          <option value="maternity">Maternity</option>
+          <option value="newborn">Newborn</option>
+          <option value="kids">Kids</option>
+          <option value="family">Family</option>
+          <option value="cake_smash">Cake Smash</option>
+        </select>
+      </div>
+      <div class="dw-field-full">
+        <label for="dw-dates">Preferred date(s)</label>
+        <input type="text" id="dw-dates" name="preferred_dates" placeholder="e.g. 12–15 August, or flexible">
+      </div>
+
+      <p class="dw-field-group-heading dw-field-full">Address (for delivery/records)</p>
+      <div class="dw-field-full">
+        <label for="dw-street">Street address</label>
+        <input type="text" id="dw-street" name="address_street" required>
+      </div>
+      <div>
+        <label for="dw-city">City</label>
+        <input type="text" id="dw-city" name="address_city" required>
+      </div>
+      <div>
+        <label for="dw-pin">PIN code</label>
+        <input type="text" id="dw-pin" name="address_pin" inputmode="numeric" required>
+      </div>
+
+      <div class="dw-field-full">
+        <label for="dw-message">Message / anything else we should know</label>
+        <textarea id="dw-message" name="message"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</section>

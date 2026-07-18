@@ -1,0 +1,82 @@
+<!-- ============================
+SECTION CONTROLS — Studio Details (Contact/Booking)
+
+IMAGES:
+  none
+
+FONT SIZES:
+  --studio-details-heading-size: 26px
+  --studio-details-item-size: 16px
+============================ -->
+<section class="dw-studio-details">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-studio-details {
+      --studio-details-heading-size: 26px;
+      --studio-details-item-size: 16px;
+      background:#F6F2E9;
+      padding:56px 24px;
+      border-top:1px solid #E7E0CF;
+    }
+    .dw-studio-details .dw-studio-details-inner {
+      max-width:720px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-studio-details h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--studio-details-heading-size);
+      color:#211E17;
+      margin:0 0 24px;
+    }
+    .dw-studio-details .dw-studio-details-list {
+      display:flex;
+      justify-content:center;
+      gap:32px;
+      flex-wrap:wrap;
+    }
+    .dw-studio-details .dw-studio-detail-item {
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .dw-studio-details .dw-studio-detail-label {
+      font-family:'Karla',sans-serif;
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#1F4D3B;
+    }
+    .dw-studio-details .dw-studio-detail-value {
+      font-family:'Karla',sans-serif;
+      font-size: var(--studio-details-item-size);
+      color:#211E17;
+      text-decoration:none;
+      font-weight:500;
+    }
+    .dw-studio-details .dw-studio-detail-value:hover {
+      color:#1F4D3B;
+    }
+  </style>
+
+  <div class="dw-studio-details-inner">
+    <h2>Studio details</h2>
+    <div class="dw-studio-details-list">
+      <div class="dw-studio-detail-item">
+        <span class="dw-studio-detail-label">Location</span>
+        <span class="dw-studio-detail-value">Kondapur, Hyderabad</span>
+      </div>
+      <div class="dw-studio-detail-item">
+        <span class="dw-studio-detail-label">WhatsApp</span>
+        <a class="dw-studio-detail-value" href="https://wa.me/919178457983" target="_blank" rel="noopener">9178457983</a>
+      </div>
+      <div class="dw-studio-detail-item">
+        <span class="dw-studio-detail-label">Instagram</span>
+        <a class="dw-studio-detail-value" href="https://instagram.com" target="_blank" rel="noopener">@dragonworksphotography</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,161 @@
+<!-- ============================
+SECTION CONTROLS — Footer (Home, and shared across all pages)
+
+IMAGES:
+  1. footer-logo (optional) → small logo mark, can be left blank to use text logo only
+
+FONT SIZES:
+  --footer-logo-size: 22px
+  --footer-blurb-size: 15px
+  --footer-heading-size: 14px
+  --footer-link-size: 14px
+  --footer-bottom-size: 13px
+============================ -->
+<section class="dw-footer">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-footer {
+      --footer-logo-size: 22px;
+      --footer-blurb-size: 15px;
+      --footer-heading-size: 14px;
+      --footer-link-size: 14px;
+      --footer-bottom-size: 13px;
+      background:#FFFFFF;
+      border-top:1px solid #E7E0CF;
+      padding:64px 24px 32px;
+    }
+    .dw-footer .dw-footer-inner {
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .dw-footer .dw-footer-grid {
+      display:grid;
+      grid-template-columns:1.4fr 1fr 1fr;
+      gap:40px;
+      margin-bottom:40px;
+    }
+    .dw-footer .dw-footer-logo {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--footer-logo-size);
+      color:#211E17;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:14px;
+    }
+    .dw-footer .dw-footer-logo img {
+      width:32px;
+      height:32px;
+      border-radius:6px;
+      object-fit:cover;
+    }
+    .dw-footer .dw-footer-blurb {
+      font-family:'Karla',sans-serif;
+      font-size: var(--footer-blurb-size);
+      color:#5C5648;
+      line-height:1.6;
+      max-width:340px;
+      margin:0;
+    }
+    .dw-footer .dw-footer-col h4 {
+      font-family:'Karla',sans-serif;
+      font-size: var(--footer-heading-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#211E17;
+      margin:0 0 16px;
+    }
+    .dw-footer .dw-footer-col ul {
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .dw-footer .dw-footer-col a {
+      font-family:'Karla',sans-serif;
+      font-size: var(--footer-link-size);
+      color:#5C5648;
+      text-decoration:none;
+    }
+    .dw-footer .dw-footer-col a:hover {
+      color:#1F4D3B;
+    }
+    .dw-footer .dw-footer-bottom {
+      border-top:1px solid #E7E0CF;
+      padding-top:24px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+    .dw-footer .dw-footer-bottom p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--footer-bottom-size);
+      color:#5C5648;
+      margin:0;
+    }
+
+    @media (max-width: 800px) {
+      .dw-footer .dw-footer-grid {
+        grid-template-columns:1fr 1fr;
+      }
+      .dw-footer .dw-footer-blurb {
+        max-width:100%;
+      }
+    }
+    @media (max-width: 520px) {
+      .dw-footer .dw-footer-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-footer-inner">
+    <div class="dw-footer-grid">
+      <div>
+        <a class="dw-footer-logo" href="/">
+          <!-- Optional logo image; delete <img> tag entirely to use text-only logo -->
+          <!-- <img src="PASTE_IMAGE_LINK_HERE" data-slot="footer-logo" alt="DragonWorks Photography logo"> -->
+          DragonWorks
+        </a>
+        <p class="dw-footer-blurb">A Hyderabad photography studio for maternity, newborn, baby, kids and family portraits — priced for real families.</p>
+      </div>
+      <div class="dw-footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/maternity">Maternity</a></li>
+          <li><a href="/newborn">Newborn</a></li>
+          <li><a href="/kids">Kids &amp; Family</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </div>
+      <div class="dw-footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="/#pricing">Packages</a></li>
+          <li><a href="/#gallery">Gallery</a></li>
+          <li><a href="/contact#faq">FAQs</a></li>
+          <li><a href="/contact">Booking</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dw-footer-col" style="margin-bottom:40px;">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://wa.me/919178457983" target="_blank" rel="noopener">WhatsApp: 9178457983</a></li>
+        <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="#">Kondapur, Hyderabad</a></li>
+      </ul>
+    </div>
+    <div class="dw-footer-bottom">
+      <p>© 2026 DragonWorks Photography. All rights reserved.</p>
+      <p>Kondapur, Hyderabad · 9178457983</p>
+    </div>
+  </div>
+</section>
