@@ -1,0 +1,161 @@
+<!-- ============================
+SECTION CONTROLS — Hero (Home)
+
+IMAGES:
+  1. hero-main   → large portrait photo, ratio 4:5, main visual (maternity/newborn/family hero shot)
+  2. hero-badge  → small corner tag/badge photo (optional, can be left as text-only badge)
+
+FONT SIZES:
+  --hero-eyebrow-size: 15px
+  --hero-heading-size: 48px
+  --hero-body-size: 18px
+  --hero-button-size: 16px
+============================ -->
+<section class="dw-hero">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-hero {
+      --hero-eyebrow-size: 15px;
+      --hero-heading-size: 48px;
+      --hero-body-size: 18px;
+      --hero-button-size: 16px;
+      background:#F6F2E9;
+      padding:72px 24px 56px;
+    }
+    .dw-hero .dw-hero-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:56px;
+      align-items:center;
+    }
+    .dw-hero .dw-hero-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--hero-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 16px;
+    }
+    .dw-hero h1 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--hero-heading-size);
+      line-height:1.1;
+      color:#211E17;
+      margin:0 0 20px;
+    }
+    .dw-hero p {
+      font-family:'Karla',sans-serif;
+      font-size: var(--hero-body-size);
+      line-height:1.6;
+      color:#5C5648;
+      margin:0 0 32px;
+      max-width:520px;
+    }
+    .dw-hero .dw-hero-buttons {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .dw-hero .dw-btn {
+      font-family:'Karla',sans-serif;
+      font-size: var(--hero-button-size);
+      font-weight:700;
+      text-decoration:none;
+      padding:14px 28px;
+      border-radius:999px;
+      display:inline-block;
+      transition:all 0.2s ease;
+    }
+    .dw-hero .dw-btn-primary {
+      background:#1F4D3B;
+      color:#FFFFFF;
+      border:1px solid #1F4D3B;
+    }
+    .dw-hero .dw-btn-primary:hover {
+      background:#163A2C;
+      border-color:#163A2C;
+    }
+    .dw-hero .dw-btn-outline {
+      background:transparent;
+      color:#211E17;
+      border:1px solid #211E17;
+    }
+    .dw-hero .dw-btn-outline:hover {
+      background:#211E17;
+      color:#FFFFFF;
+    }
+    .dw-hero .dw-hero-media {
+      position:relative;
+    }
+    .dw-hero .dw-hero-media img {
+      width:100%;
+      aspect-ratio:4/5;
+      object-fit:cover;
+      border-radius:16px;
+      display:block;
+    }
+    .dw-hero .dw-hero-badge {
+      position:absolute;
+      bottom:-20px;
+      left:-20px;
+      background:#FFFFFF;
+      border:1px solid #E7E0CF;
+      border-radius:12px;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 24px rgba(33,30,23,0.08);
+    }
+    .dw-hero .dw-hero-badge img {
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .dw-hero .dw-hero-badge span {
+      font-family:'Karla',sans-serif;
+      font-size:13px;
+      font-weight:700;
+      color:#211E17;
+    }
+
+    @media (max-width: 900px) {
+      .dw-hero .dw-hero-inner {
+        grid-template-columns:1fr;
+        gap:36px;
+      }
+      .dw-hero h1 {
+        font-size: calc(var(--hero-heading-size) * 0.7);
+      }
+      .dw-hero .dw-hero-badge {
+        left:16px;
+        bottom:-16px;
+      }
+    }
+  </style>
+
+  <div class="dw-hero-inner">
+    <div class="dw-hero-copy">
+      <p class="dw-hero-eyebrow">Hyderabad Family Photography Studio</p>
+      <h1>Every milestone, beautifully kept.</h1>
+      <p>Maternity, newborn, baby and kids photography — done with care, at a price built for real families.</p>
+      <div class="dw-hero-buttons">
+        <a class="dw-btn dw-btn-primary" href="/contact">Book Your Session</a>
+        <a class="dw-btn dw-btn-outline" href="#pricing">See Packages</a>
+      </div>
+    </div>
+    <div class="dw-hero-media">
+      <img src="PASTE_IMAGE_LINK_HERE" data-slot="hero-main" alt="Family portrait session at DragonWorks studio">
+      <div class="dw-hero-badge">
+        <img src="PASTE_IMAGE_LINK_HERE" data-slot="hero-badge" alt="">
+        <span>500+ Families Shot</span>
+      </div>
+    </div>
+  </div>
+</section>

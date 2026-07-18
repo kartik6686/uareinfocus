@@ -1,0 +1,202 @@
+<!-- ============================
+SECTION CONTROLS — Growth Journey (Home, signature section)
+
+IMAGES:
+  1. stage-01-maternity → square/portrait photo for Maternity stage card
+  2. stage-02-newborn   → square/portrait photo for Newborn stage card
+  3. stage-03-baby      → square/portrait photo for Baby & Cake Smash stage card
+  4. stage-04-kids      → square/portrait photo for Kids & Family stage card
+
+FONT SIZES:
+  --journey-eyebrow-size: 15px
+  --journey-heading-size: 36px
+  --journey-sub-size: 17px
+  --journey-stage-label-size: 13px
+  --journey-stage-title-size: 20px
+  --journey-stage-body-size: 15px
+  --journey-stage-link-size: 14px
+============================ -->
+<section class="dw-journey">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-journey {
+      --journey-eyebrow-size: 15px;
+      --journey-heading-size: 36px;
+      --journey-sub-size: 17px;
+      --journey-stage-label-size: 13px;
+      --journey-stage-title-size: 20px;
+      --journey-stage-body-size: 15px;
+      --journey-stage-link-size: 14px;
+      background:#F6F2E9;
+      padding:80px 24px;
+    }
+    .dw-journey .dw-journey-inner {
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .dw-journey .dw-journey-head {
+      text-align:center;
+      max-width:680px;
+      margin:0 auto 56px;
+    }
+    .dw-journey .dw-journey-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--journey-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 14px;
+    }
+    .dw-journey h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--journey-heading-size);
+      color:#211E17;
+      margin:0 0 16px;
+      line-height:1.2;
+    }
+    .dw-journey .dw-journey-sub {
+      font-family:'Karla',sans-serif;
+      font-size: var(--journey-sub-size);
+      color:#5C5648;
+      line-height:1.6;
+      margin:0;
+    }
+    .dw-journey .dw-journey-path {
+      position:relative;
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:28px;
+    }
+    .dw-journey .dw-journey-path::before {
+      content:"";
+      position:absolute;
+      top:78px;
+      left:6%;
+      right:6%;
+      height:2px;
+      background:repeating-linear-gradient(to right, #1F4D3B 0 10px, transparent 10px 18px);
+      z-index:0;
+    }
+    .dw-journey .dw-stage-card {
+      position:relative;
+      z-index:1;
+      background:#FFFFFF;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .dw-journey .dw-stage-media {
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:12px;
+      overflow:hidden;
+      background:#F6F2E9;
+    }
+    .dw-journey .dw-stage-media img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .dw-journey .dw-stage-label {
+      font-family:'Karla',sans-serif;
+      font-size: var(--journey-stage-label-size);
+      font-weight:700;
+      color:#1F4D3B;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .dw-journey .dw-stage-title {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--journey-stage-title-size);
+      color:#211E17;
+      margin:0;
+    }
+    .dw-journey .dw-stage-body {
+      font-family:'Karla',sans-serif;
+      font-size: var(--journey-stage-body-size);
+      color:#5C5648;
+      line-height:1.55;
+      margin:0;
+      flex-grow:1;
+    }
+    .dw-journey .dw-stage-link {
+      font-family:'Karla',sans-serif;
+      font-size: var(--journey-stage-link-size);
+      font-weight:700;
+      color:#1F4D3B;
+      text-decoration:none;
+    }
+    .dw-journey .dw-stage-link:hover {
+      color:#163A2C;
+      text-decoration:underline;
+    }
+
+    @media (max-width: 900px) {
+      .dw-journey .dw-journey-path {
+        grid-template-columns:1fr 1fr;
+      }
+      .dw-journey .dw-journey-path::before {
+        display:none;
+      }
+    }
+    @media (max-width: 560px) {
+      .dw-journey .dw-journey-path {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-journey-inner">
+    <div class="dw-journey-head">
+      <p class="dw-journey-eyebrow">Follow the journey</p>
+      <h2>We shoot every chapter of growing up.</h2>
+      <p class="dw-journey-sub">From bump to birthday — pick the stage you're in, or book the whole journey as your family grows.</p>
+    </div>
+    <div class="dw-journey-path">
+      <div class="dw-stage-card">
+        <div class="dw-stage-media">
+          <img src="PASTE_IMAGE_LINK_HERE" data-slot="stage-01-maternity" alt="Maternity photography session">
+        </div>
+        <span class="dw-stage-label">Stage 01 — Maternity</span>
+        <h3 class="dw-stage-title">Maternity</h3>
+        <p class="dw-stage-body">Soft, elegant portraits celebrating the bump — solo, with partner, or the whole family.</p>
+        <a class="dw-stage-link" href="/maternity">Explore Maternity →</a>
+      </div>
+      <div class="dw-stage-card">
+        <div class="dw-stage-media">
+          <img src="PASTE_IMAGE_LINK_HERE" data-slot="stage-02-newborn" alt="Newborn photography session">
+        </div>
+        <span class="dw-stage-label">Stage 02 — Newborn</span>
+        <h3 class="dw-stage-title">Newborn</h3>
+        <p class="dw-stage-body">Gentle, safe sessions in the first days — sleepy poses, tiny details, family cuddles.</p>
+        <a class="dw-stage-link" href="/newborn">Explore Newborn →</a>
+      </div>
+      <div class="dw-stage-card">
+        <div class="dw-stage-media">
+          <img src="PASTE_IMAGE_LINK_HERE" data-slot="stage-03-baby" alt="Baby and cake smash photography session">
+        </div>
+        <span class="dw-stage-label">Stage 03 — Baby & Cake Smash</span>
+        <h3 class="dw-stage-title">Baby & Cake Smash</h3>
+        <p class="dw-stage-body">3, 6, 9-month milestones and the first-birthday cake smash, done playfully.</p>
+        <a class="dw-stage-link" href="/kids">Explore Baby →</a>
+      </div>
+      <div class="dw-stage-card">
+        <div class="dw-stage-media">
+          <img src="PASTE_IMAGE_LINK_HERE" data-slot="stage-04-kids" alt="Kids and family photography session">
+        </div>
+        <span class="dw-stage-label">Stage 04 — Kids & Family</span>
+        <h3 class="dw-stage-title">Kids & Family</h3>
+        <p class="dw-stage-body">Toddlers, festive shoots, and full-family portraits that don't feel stiff or staged.</p>
+        <a class="dw-stage-link" href="/kids">Explore Kids →</a>
+      </div>
+    </div>
+  </div>
+</section>

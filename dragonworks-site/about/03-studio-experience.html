@@ -1,0 +1,77 @@
+<!-- ============================
+SECTION CONTROLS — What Our Studio Offers (About)
+
+IMAGES:
+  none — checklist grid only
+
+FONT SIZES:
+  --about-studio-heading-size: 32px
+  --about-studio-item-size: 16px
+============================ -->
+<section class="dw-about-studio">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-about-studio {
+      --about-studio-heading-size: 32px;
+      --about-studio-item-size: 16px;
+      background:#F6F2E9;
+      padding:80px 24px;
+    }
+    .dw-about-studio .dw-about-studio-inner {
+      max-width:900px;
+      margin:0 auto;
+    }
+    .dw-about-studio h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--about-studio-heading-size);
+      color:#211E17;
+      text-align:center;
+      margin:0 0 40px;
+    }
+    .dw-about-studio ul {
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 32px;
+    }
+    .dw-about-studio li {
+      font-family:'Karla',sans-serif;
+      font-size: var(--about-studio-item-size);
+      color:#211E17;
+      padding-left:28px;
+      position:relative;
+      line-height:1.5;
+    }
+    .dw-about-studio li::before {
+      content:"✓";
+      position:absolute;
+      left:0;
+      color:#1F4D3B;
+      font-weight:700;
+    }
+
+    @media (max-width: 600px) {
+      .dw-about-studio ul {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-about-studio-inner">
+    <h2>What our studio offers</h2>
+    <ul>
+      <li>Air-conditioned indoor studio</li>
+      <li>Comfortable changing room</li>
+      <li>Makeup space</li>
+      <li>Multiple photography setups</li>
+      <li>Baby-safe props</li>
+      <li>Family-friendly atmosphere</li>
+      <li>Professional lighting equipment</li>
+      <li>Clean, hygienic environment</li>
+    </ul>
+  </div>
+</section>

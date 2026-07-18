@@ -1,0 +1,88 @@
+<!-- ============================
+SECTION CONTROLS — Mission Strip (Home)
+
+IMAGES:
+  none — text and stats only
+
+FONT SIZES:
+  --mission-line-size: 20px
+  --mission-stat-number-size: 28px
+  --mission-stat-label-size: 14px
+============================ -->
+<section class="dw-mission">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-mission {
+      --mission-line-size: 20px;
+      --mission-stat-number-size: 28px;
+      --mission-stat-label-size: 14px;
+      background:#FFFFFF;
+      padding:56px 24px;
+      border-top:1px solid #E7E0CF;
+      border-bottom:1px solid #E7E0CF;
+    }
+    .dw-mission .dw-mission-inner {
+      max-width:960px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .dw-mission p.dw-mission-line {
+      font-family:'Fraunces',serif;
+      font-weight:600;
+      font-size: var(--mission-line-size);
+      line-height:1.5;
+      color:#211E17;
+      margin:0 0 36px;
+    }
+    .dw-mission .dw-mission-stats {
+      display:flex;
+      justify-content:center;
+      gap:56px;
+      flex-wrap:wrap;
+    }
+    .dw-mission .dw-stat {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+    }
+    .dw-mission .dw-stat-number {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--mission-stat-number-size);
+      color:#1F4D3B;
+    }
+    .dw-mission .dw-stat-label {
+      font-family:'Karla',sans-serif;
+      font-size: var(--mission-stat-label-size);
+      color:#5C5648;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    @media (max-width: 600px) {
+      .dw-mission .dw-mission-stats {
+        gap:32px;
+      }
+    }
+  </style>
+
+  <div class="dw-mission-inner">
+    <p class="dw-mission-line">Honest pricing, a relaxed studio, and a team that knows how to make families comfortable in front of the camera.</p>
+    <div class="dw-mission-stats">
+      <div class="dw-stat">
+        <span class="dw-stat-number">500+</span>
+        <span class="dw-stat-label">Families Shot</span>
+      </div>
+      <div class="dw-stat">
+        <span class="dw-stat-number">4.9★</span>
+        <span class="dw-stat-label">Client Rating</span>
+      </div>
+      <div class="dw-stat">
+        <span class="dw-stat-number">10+</span>
+        <span class="dw-stat-label">Years Studio</span>
+      </div>
+    </div>
+  </div>
+</section>

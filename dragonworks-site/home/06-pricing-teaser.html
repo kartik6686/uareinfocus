@@ -1,0 +1,218 @@
+<!-- ============================
+SECTION CONTROLS — Pricing Teaser (Home)
+
+IMAGES:
+  none — pricing cards only
+
+PRICING (EDITABLE FIELDS — Kartik to fill in final ₹ amounts and inclusions):
+  Tier 1 "Starter"          → price: ₹[ADD PRICE]     inclusions: [ADD INCLUSIONS]
+  Tier 2 "Family Favourite" → price: ₹[ADD PRICE]     inclusions: [ADD INCLUSIONS]  (badge: "Most Booked")
+  Tier 3 "Complete"         → price: ₹[ADD PRICE]     inclusions: [ADD INCLUSIONS]
+
+FONT SIZES:
+  --pricing-eyebrow-size: 15px
+  --pricing-heading-size: 34px
+  --pricing-sub-size: 17px
+  --pricing-tier-name-size: 20px
+  --pricing-tier-price-size: 32px
+  --pricing-tier-item-size: 15px
+============================ -->
+<section class="dw-pricing" id="pricing">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Karla:wght@400;500;700&display=swap');
+
+    .dw-pricing {
+      --pricing-eyebrow-size: 15px;
+      --pricing-heading-size: 34px;
+      --pricing-sub-size: 17px;
+      --pricing-tier-name-size: 20px;
+      --pricing-tier-price-size: 32px;
+      --pricing-tier-item-size: 15px;
+      background:#F6F2E9;
+      padding:80px 24px;
+    }
+    .dw-pricing .dw-pricing-inner {
+      max-width:1160px;
+      margin:0 auto;
+    }
+    .dw-pricing .dw-pricing-head {
+      text-align:center;
+      max-width:640px;
+      margin:0 auto 48px;
+    }
+    .dw-pricing .dw-pricing-eyebrow {
+      font-family:'Karla',sans-serif;
+      font-size: var(--pricing-eyebrow-size);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#1F4D3B;
+      margin:0 0 14px;
+    }
+    .dw-pricing h2 {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--pricing-heading-size);
+      color:#211E17;
+      margin:0 0 16px;
+      line-height:1.2;
+    }
+    .dw-pricing .dw-pricing-sub {
+      font-family:'Karla',sans-serif;
+      font-size: var(--pricing-sub-size);
+      color:#5C5648;
+      line-height:1.6;
+      margin:0;
+    }
+    .dw-pricing .dw-pricing-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+      align-items:stretch;
+    }
+    .dw-pricing .dw-tier {
+      position:relative;
+      background:#FFFFFF;
+      border:1px solid #E7E0CF;
+      border-radius:16px;
+      padding:32px 28px;
+      display:flex;
+      flex-direction:column;
+    }
+    .dw-pricing .dw-tier.dw-tier-featured {
+      border:2px solid #1F4D3B;
+    }
+    .dw-pricing .dw-tier-badge {
+      position:absolute;
+      top:-14px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#1F4D3B;
+      color:#FFFFFF;
+      font-family:'Karla',sans-serif;
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      padding:6px 14px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .dw-pricing .dw-tier-name {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--pricing-tier-name-size);
+      color:#211E17;
+      margin:0 0 8px;
+    }
+    .dw-pricing .dw-tier-price {
+      font-family:'Fraunces',serif;
+      font-weight:700;
+      font-size: var(--pricing-tier-price-size);
+      color:#1F4D3B;
+      margin:0 0 20px;
+    }
+    .dw-pricing .dw-tier-price span {
+      font-family:'Karla',sans-serif;
+      font-size:14px;
+      font-weight:500;
+      color:#5C5648;
+    }
+    .dw-pricing .dw-tier-list {
+      list-style:none;
+      margin:0 0 28px;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex-grow:1;
+    }
+    .dw-pricing .dw-tier-list li {
+      font-family:'Karla',sans-serif;
+      font-size: var(--pricing-tier-item-size);
+      color:#5C5648;
+      padding-left:22px;
+      position:relative;
+    }
+    .dw-pricing .dw-tier-list li::before {
+      content:"✓";
+      position:absolute;
+      left:0;
+      color:#1F4D3B;
+      font-weight:700;
+    }
+    .dw-pricing .dw-tier-btn {
+      font-family:'Karla',sans-serif;
+      font-size:15px;
+      font-weight:700;
+      text-align:center;
+      text-decoration:none;
+      color:#FFFFFF;
+      background:#1F4D3B;
+      padding:12px 20px;
+      border-radius:999px;
+      transition:background 0.2s ease;
+    }
+    .dw-pricing .dw-tier-btn:hover {
+      background:#163A2C;
+    }
+    .dw-pricing .dw-pricing-note {
+      text-align:center;
+      font-family:'Karla',sans-serif;
+      font-size:14px;
+      color:#5C5648;
+      margin:32px 0 0;
+      font-style:italic;
+    }
+
+    @media (max-width: 900px) {
+      .dw-pricing .dw-pricing-grid {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <div class="dw-pricing-inner">
+    <div class="dw-pricing-head">
+      <p class="dw-pricing-eyebrow">Packages</p>
+      <h2>Simple pricing, real value.</h2>
+      <p class="dw-pricing-sub">Straightforward packages — no confusing add-ons unless you want them.</p>
+    </div>
+    <div class="dw-pricing-grid">
+      <div class="dw-tier">
+        <h3 class="dw-tier-name">Starter</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]<span>/session</span></p>
+        <ul class="dw-tier-list">
+          <li>[ADD INCLUSIONS — e.g. number of edited images]</li>
+          <li>[ADD INCLUSIONS — e.g. session length]</li>
+          <li>[ADD INCLUSIONS — e.g. outfit changes]</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Starter</a>
+      </div>
+      <div class="dw-tier dw-tier-featured">
+        <span class="dw-tier-badge">Most Booked</span>
+        <h3 class="dw-tier-name">Family Favourite</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]<span>/session</span></p>
+        <ul class="dw-tier-list">
+          <li>[ADD INCLUSIONS — e.g. number of edited images]</li>
+          <li>[ADD INCLUSIONS — e.g. session length]</li>
+          <li>[ADD INCLUSIONS — e.g. outfit changes]</li>
+          <li>[ADD INCLUSIONS — e.g. props/wardrobe]</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Family Favourite</a>
+      </div>
+      <div class="dw-tier">
+        <h3 class="dw-tier-name">Complete</h3>
+        <p class="dw-tier-price">₹[ADD PRICE]<span>/session</span></p>
+        <ul class="dw-tier-list">
+          <li>[ADD INCLUSIONS — e.g. number of edited images]</li>
+          <li>[ADD INCLUSIONS — e.g. session length]</li>
+          <li>[ADD INCLUSIONS — e.g. outfit changes]</li>
+          <li>[ADD INCLUSIONS — e.g. premium prints/album]</li>
+        </ul>
+        <a class="dw-tier-btn" href="/contact">Book Complete</a>
+      </div>
+    </div>
+    <p class="dw-pricing-note">EMI and installment options available on request.</p>
+  </div>
+</section>
